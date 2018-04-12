@@ -6,6 +6,10 @@ import android.view.View;
 
 import com.wen_wen.festec.R;
 import com.wen_wen.latte.app.delegate.LatteDelegate;
+import com.wen_wen.latte.app.net.RestClient;
+import com.wen_wen.latte.app.net.callback.IError;
+import com.wen_wen.latte.app.net.callback.IFailure;
+import com.wen_wen.latte.app.net.callback.ISuccess;
 
 /**
  * Created by WeLot on 2018/4/12.
@@ -21,4 +25,31 @@ public class ExampleDelegate  extends LatteDelegate{
     public void onBindView(@Nullable Bundle savedInstanceState, View rootView) {
 
     }
+
+
+    private  void  testRestClient(){
+        RestClient.builder()
+                .url("")
+                .params("","")
+                .success(new ISuccess() {
+                    @Override
+                    public void OnSuccess(String response) {
+
+                    }
+                })
+                .failure(new IFailure() {
+                    @Override
+                    public void onFailure() {
+
+                    }
+                })
+                .error(new IError() {
+                    @Override
+                    public void onError(int code, String msg) {
+
+                    }
+                })
+                .build();
+    }
+
 }

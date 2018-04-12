@@ -22,7 +22,7 @@ import retrofit2.http.Url;
  * 请求的通用封装
  */
 
-public interface RestfulService {
+public interface RestService {
 
     @GET
     Call<String> get(@Url String url, @QueryMap Map<String, Object> params);

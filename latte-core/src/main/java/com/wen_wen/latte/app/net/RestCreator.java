@@ -3,6 +3,7 @@ package com.wen_wen.latte.app.net;
 import com.wen_wen.latte.app.app.ConfigType;
 import com.wen_wen.latte.app.app.Latte;
 
+import java.util.WeakHashMap;
 import java.util.concurrent.TimeUnit;
 
 import okhttp3.OkHttpClient;
@@ -15,7 +16,17 @@ import retrofit2.converter.scalars.ScalarsConverterFactory;
 
 public class RestCreator {
 
-    public static RestfulService getRestService() {
+
+
+    private  static   final   class  ParamsHolder{
+        public  static   final WeakHashMap<String,Object>  PARAMS   =  new WeakHashMap<>();
+    }
+
+    public  static  WeakHashMap<String,Object>  getParams (){
+        return  ParamsHolder.PARAMS;
+    }
+
+    public static RestService getRestService() {
 
         return RestServiceHolder.REST_SERVICE;
     }
@@ -43,8 +54,8 @@ public class RestCreator {
     }
 
     private static final class RestServiceHolder {
-        private static final RestfulService REST_SERVICE = RetrofitHolder
-                .RETROFIT_CLIENT.create(RestfulService.class);
+        private static final RestService REST_SERVICE = RetrofitHolder
+                .RETROFIT_CLIENT.create(RestService.class);
     }
 
 
