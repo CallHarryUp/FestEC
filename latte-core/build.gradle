@@ -37,5 +37,12 @@ dependencies {
     //butterknife 依赖
     compile 'com.jakewharton:butterknife:8.6.0'
     annotationProcessor 'com.jakewharton:butterknife-compiler:8.6.0'
+    //网络请求
+    compile 'com.squareup.retrofit2:retrofit:2.4.0'
+    compile 'com.squareup.okhttp3:okhttp:3.10.0'
+    compile 'com.squareup.okio:okio:1.14.0'
+    compile 'com.squareup.retrofit2:converter-gson:2.1.0'
+    compile 'com.squareup.retrofit2:converter-scalars:2.3.0'
+
 
 }
