@@ -2,7 +2,7 @@ package com.wen_wen.festec;
 
 import android.app.Application;
 
-import com.wen_wen.latte.app.Latte;
+import com.wen_wen.latte.app.app.Latte;
 
 /**
  * Created by WeLot on 2018/4/12.

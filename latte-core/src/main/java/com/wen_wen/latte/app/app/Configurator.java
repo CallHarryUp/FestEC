@@ -1,4 +1,4 @@
-package com.wen_wen.latte.app;
+package com.wen_wen.latte.app.app;
 
 import java.util.WeakHashMap;
 
