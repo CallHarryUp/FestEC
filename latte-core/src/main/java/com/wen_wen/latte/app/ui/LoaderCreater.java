@@ -12,7 +12,7 @@ import java.util.WeakHashMap;
  * 通过缓存的方式 提高效率 loadingView的效率
  */
 
-public final class LoderCreater {
+public final class LoaderCreater {
 
     private static final WeakHashMap<String, Indicator> LOADING_MAP = new WeakHashMap<>();
 

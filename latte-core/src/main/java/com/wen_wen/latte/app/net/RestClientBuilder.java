@@ -1,9 +1,12 @@
 package com.wen_wen.latte.app.net;
 
+import android.content.Context;
+
 import com.wen_wen.latte.app.net.callback.IError;
 import com.wen_wen.latte.app.net.callback.IFailure;
 import com.wen_wen.latte.app.net.callback.ISuccess;
 import com.wen_wen.latte.app.net.callback.Irequest;
+import com.wen_wen.latte.app.ui.LoaderStyle;
 
 import java.util.Map;
 import java.util.WeakHashMap;
@@ -25,6 +28,8 @@ public class RestClientBuilder {
     private IFailure mIFailure;
     private IError mIError;
     private RequestBody mBody;
+    private Context mContext;
+    private LoaderStyle mLoaderStyle;
 
     RestClientBuilder() {
 
@@ -78,6 +83,19 @@ public class RestClientBuilder {
         return this;
     }
 
+    public final RestClientBuilder loader(Context context, LoaderStyle style) {
+        this.mContext = context;
+        this.mLoaderStyle = style;
+
+        return this;
+    }
+    //使用默认的loader
+    public   final  RestClientBuilder  loader(Context  context){
+        this.mContext  =  context;
+        this.mLoaderStyle   = LoaderStyle.BallClipRotatePulseIndicator;
+        return   this;
+    }
+
     /*  //检查
       private Map<String, Object> checkParams() {
           if (PARAMS == null) {
@@ -88,6 +106,6 @@ public class RestClientBuilder {
       }
   */
     public final RestClient build() {
-        return new RestClient(mUrl, PARAMS, mIrequest, mIsuccess, mIFailure, mIError, mBody);
+        return new RestClient(mUrl, PARAMS, mIrequest, mIsuccess, mIFailure, mIError, mBody, mContext, mLoaderStyle);
     }
 }

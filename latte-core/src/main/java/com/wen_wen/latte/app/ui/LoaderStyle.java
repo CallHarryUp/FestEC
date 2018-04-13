@@ -5,7 +5,7 @@ package com.wen_wen.latte.app.ui;
  * 加载的样式
  */
 @SuppressWarnings("unused")
-public enum  LoadingStyle {
+public enum LoaderStyle {
     BallPulseIndicator,
     BallGridPulseIndicator,
     BallClipRotateIndicator,
