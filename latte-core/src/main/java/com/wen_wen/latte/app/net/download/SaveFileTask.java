@@ -1,4 +1,4 @@
-package com.wen_wen.latte.app.download;
+package com.wen_wen.latte.app.net.download;
 
 import android.content.Intent;
 import android.net.Uri;

@@ -3,6 +3,7 @@ package com.wen_wen.festec;
 import android.app.Application;
 
 import com.wen_wen.latte.app.app.Latte;
+import com.wen_wen.latte.app.net.interceptors.DebugInterceptor;
 
 /**
  * Created by WeLot on 2018/4/12.
@@ -15,6 +16,8 @@ public class ExampleApp extends Application {
         super.onCreate();
         Latte.init(this)
                 .withApiHost("http://127.0.0.1/")
+                .withLoaderDelayed(1000)
+                .withInterceptor(new DebugInterceptor("index",R.raw.text))
                 .configure();
     }
 }

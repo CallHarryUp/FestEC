@@ -6,7 +6,7 @@ package com.wen_wen.latte.app.net;
 
 import android.content.Context;
 
-import com.wen_wen.latte.app.download.DownloadHanlder;
+import com.wen_wen.latte.app.net.download.DownloadHanlder;
 import com.wen_wen.latte.app.net.callback.IError;
 import com.wen_wen.latte.app.net.callback.IFailure;
 import com.wen_wen.latte.app.net.callback.ISuccess;
