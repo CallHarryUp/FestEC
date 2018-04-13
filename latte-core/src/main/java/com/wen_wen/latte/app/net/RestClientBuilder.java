@@ -8,6 +8,7 @@ import com.wen_wen.latte.app.net.callback.ISuccess;
 import com.wen_wen.latte.app.net.callback.Irequest;
 import com.wen_wen.latte.app.ui.LoaderStyle;
 
+import java.io.File;
 import java.util.Map;
 import java.util.WeakHashMap;
 
@@ -28,6 +29,7 @@ public class RestClientBuilder {
     private IFailure mIFailure;
     private IError mIError;
     private RequestBody mBody;
+    private File mFile;
     private Context mContext;
     private LoaderStyle mLoaderStyle;
 
@@ -83,17 +85,30 @@ public class RestClientBuilder {
         return this;
     }
 
+    //文件
+    public final RestClientBuilder file(File file) {
+        this.mFile = file;
+        return this;
+    }
+
+    public final RestClientBuilder file(String file) {
+        this.mFile = new File(file);
+        return this;
+    }
+
+
     public final RestClientBuilder loader(Context context, LoaderStyle style) {
         this.mContext = context;
         this.mLoaderStyle = style;
 
         return this;
     }
+
     //使用默认的loader
-    public   final  RestClientBuilder  loader(Context  context){
-        this.mContext  =  context;
-        this.mLoaderStyle   = LoaderStyle.BallClipRotatePulseIndicator;
-        return   this;
+    public final RestClientBuilder loader(Context context) {
+        this.mContext = context;
+        this.mLoaderStyle = LoaderStyle.BallClipRotatePulseIndicator;
+        return this;
     }
 
     /*  //检查
@@ -106,6 +121,6 @@ public class RestClientBuilder {
       }
   */
     public final RestClient build() {
-        return new RestClient(mUrl, PARAMS, mIrequest, mIsuccess, mIFailure, mIError, mBody, mContext, mLoaderStyle);
+        return new RestClient(mUrl, PARAMS, mIrequest, mIsuccess, mIFailure, mIError, mBody, mFile, mContext, mLoaderStyle);
     }
 }

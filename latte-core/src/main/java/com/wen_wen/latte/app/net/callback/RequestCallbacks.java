@@ -64,15 +64,15 @@ public class RequestCallbacks implements Callback<String> {
 
     }
 
-     private   void stopLoading(){
-         // 在请求结束之后  取消loading  为了展示清楚 加入延时
-         if (LOADER_STYLE != null) {
-             HANLDER.postDelayed(new Runnable() {
-                 @Override
-                 public void run() {
-                     LatteLoader.stopLoading();
-                 }
-             }, 1000);
-         }
-     }
+    private void stopLoading() {
+        // 在请求结束之后  取消loading  为了展示清楚 加入延时
+        if (LOADER_STYLE != null) {
+            HANLDER.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    LatteLoader.stopLoading();
+                }
+            }, 1000);
+        }
+    }
 }

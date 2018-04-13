@@ -14,9 +14,12 @@ import com.wen_wen.latte.app.net.callback.RequestCallbacks;
 import com.wen_wen.latte.app.ui.LatteLoader;
 import com.wen_wen.latte.app.ui.LoaderStyle;
 
+import java.io.File;
 import java.util.Map;
 import java.util.WeakHashMap;
 
+import okhttp3.MediaType;
+import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -39,6 +42,7 @@ public class RestClient {
     private final RequestBody BODY;
     private final LoaderStyle LOADER_STYLE;
     private final Context CONTEXT;
+    private File FILE;
 
 
     public RestClient(String url, Map<String, Object> params,
@@ -47,6 +51,7 @@ public class RestClient {
                       IFailure failure,
                       IError error,
                       RequestBody body,
+                      File file,
                       Context context,
                       LoaderStyle loaderStyle
 
@@ -58,6 +63,7 @@ public class RestClient {
         this.FAILURE = failure;
         this.ERROR = error;
         this.BODY = body;
+        this.FILE = file;
         this.LOADER_STYLE = loaderStyle;
         this.CONTEXT = context;
     }
@@ -77,8 +83,8 @@ public class RestClient {
             IREQUEST.onRequestStart();
         }
         //在请求开始是 调用loader  展示
-        if (LOADER_STYLE!=null) {
-            LatteLoader.showLoading(CONTEXT,LOADER_STYLE);
+        if (LOADER_STYLE != null) {
+            LatteLoader.showLoading(CONTEXT, LOADER_STYLE);
         }
 
 
@@ -92,8 +98,22 @@ public class RestClient {
             case PUT:
                 call = service.put(URL, PARAMS);
                 break;
+            case PUT_RAM:
+                call = service.putRaw(URL, BODY);
+                break;
+            case POST_RAW:
+                call = service.postRaw(URL, BODY);
+                break;
+
             case DELETE:
                 call = service.delete(URL, PARAMS);
+                break;
+            case UPLOAD://使用retrofit的方法
+                final RequestBody requestBody = RequestBody.create(MediaType.parse(MultipartBody.FORM.toString()), FILE);
+
+                final MultipartBody.Part body = MultipartBody.Part.
+                        createFormData("file", FILE.getName(),requestBody);
+                call  =  RestCreator.getRestService().upload(URL,body);
                 break;
             default:
                 break;
@@ -120,14 +140,30 @@ public class RestClient {
         request(HttpMethod.GET);
     }
 
+    //对post进行判断  是否请求原始数据
     public final void post() {
+        if (BODY == null) {
+            request(HttpMethod.POST);
+        } else {
+            if (!PARAMS.isEmpty()) {
+                throw new RuntimeException("params  must be null!");
+            }
+            request(HttpMethod.POST_RAW);
+        }
 
-        request(HttpMethod.POST);
     }
 
     public final void put() {
+        if (BODY == null) {
+            request(HttpMethod.PUT);
+        } else {
+            if (!PARAMS.isEmpty()) {
+                throw new RuntimeException("params must be null!");
+            }
+            request(HttpMethod.PUT_RAM);
+        }
 
-        request(HttpMethod.PUT);
+
     }
 
     public final void delete() {
