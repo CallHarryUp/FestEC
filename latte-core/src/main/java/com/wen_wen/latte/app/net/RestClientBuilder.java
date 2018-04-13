@@ -19,7 +19,7 @@ import okhttp3.RequestBody;
 public class RestClientBuilder {
 
     private String mUrl;
-    private Map<String, Object> PARAMS  =  RestCreator.getParams();
+    private Map<String, Object> PARAMS = RestCreator.getParams();
     private Irequest mIrequest;
     private ISuccess mIsuccess;
     private IFailure mIFailure;
@@ -49,7 +49,7 @@ public class RestClientBuilder {
     }
 
     public final RestClientBuilder raw(String raw) {
-        this.mBody = RequestBody.create(MediaType.parse("application/json;charset =  UTF-8"), raw);
+        this.mBody = RequestBody.create(MediaType.parse("application/json;charset=UTF-8"), raw);
 
         return this;
     }
@@ -78,15 +78,15 @@ public class RestClientBuilder {
         return this;
     }
 
-  /*  //检查
-    private Map<String, Object> checkParams() {
-        if (PARAMS == null) {
-            return new WeakHashMap<>();
-        } else {
-            return PARAMS;
-        }
-    }
-*/
+    /*  //检查
+      private Map<String, Object> checkParams() {
+          if (PARAMS == null) {
+              return new WeakHashMap<>();
+          } else {
+              return PARAMS;
+          }
+      }
+  */
     public final RestClient build() {
         return new RestClient(mUrl, PARAMS, mIrequest, mIsuccess, mIFailure, mIError, mBody);
     }
