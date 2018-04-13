@@ -1,6 +1,6 @@
 package com.wen_wen.latte.app.net;
 
-import com.wen_wen.latte.app.app.ConfigType;
+import com.wen_wen.latte.app.app.ConfigKeys;
 import com.wen_wen.latte.app.app.Latte;
 
 import java.util.WeakHashMap;
@@ -33,8 +33,7 @@ public class RestCreator {
 
 
     private static final class RetrofitHolder {
-        private static final String BASE_URL = (String) Latte.getConfigurations()
-                .get(ConfigType.API_HOST.name());
+        private static final String BASE_URL = (String) Latte.getConfiguration(ConfigKeys.API_HOST);
 
         private static final Retrofit RETROFIT_CLIENT = new Retrofit.Builder()
                 .baseUrl(BASE_URL)

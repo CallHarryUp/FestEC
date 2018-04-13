@@ -6,6 +6,7 @@ package com.wen_wen.latte.app.net;
 
 import android.content.Context;
 
+import com.wen_wen.latte.app.download.DownloadHanlder;
 import com.wen_wen.latte.app.net.callback.IError;
 import com.wen_wen.latte.app.net.callback.IFailure;
 import com.wen_wen.latte.app.net.callback.ISuccess;
@@ -26,16 +27,20 @@ import retrofit2.Callback;
 
 /**
  * 设计模式：
- * 1/使用建造者模式
+ * 1、使用建造者模式
  * 2、 请求时加入loader
+ * 3、完善请求方式
+ * 4、完善download下载文件方式
  */
 public class RestClient {
 
     private final String URL;
-
     private static final WeakHashMap<String, Object> PARAMS = RestCreator.getParams();
+    private final Irequest REQUEST;
+    private final String DOWNLOAD_DIR;
+    private final String EXTENSION;
+    private final String NAME;
 
-    private final Irequest IREQUEST;
     private final ISuccess SUCCESS;
     private final IFailure FAILURE;
     private final IError ERROR;
@@ -47,6 +52,9 @@ public class RestClient {
 
     public RestClient(String url, Map<String, Object> params,
                       Irequest request,
+                      String downloadDir,
+                      String extension,
+                      String name,
                       ISuccess success,
                       IFailure failure,
                       IError error,
@@ -58,7 +66,10 @@ public class RestClient {
     ) {
         this.URL = url;
         PARAMS.putAll(params);
-        this.IREQUEST = request;
+        this.REQUEST = request;
+        this.DOWNLOAD_DIR = downloadDir;
+        this.EXTENSION = extension;
+        this.NAME = name;
         this.SUCCESS = success;
         this.FAILURE = failure;
         this.ERROR = error;
@@ -79,14 +90,13 @@ public class RestClient {
         final RestService service = RestCreator.getRestService();
         Call<String> call = null;
 
-        if (IREQUEST != null) {
-            IREQUEST.onRequestStart();
+        if (REQUEST != null) {
+            REQUEST.onRequestStart();
         }
         //在请求开始是 调用loader  展示
         if (LOADER_STYLE != null) {
             LatteLoader.showLoading(CONTEXT, LOADER_STYLE);
         }
-
 
         switch (method) {
             case GET:
@@ -112,8 +122,8 @@ public class RestClient {
                 final RequestBody requestBody = RequestBody.create(MediaType.parse(MultipartBody.FORM.toString()), FILE);
 
                 final MultipartBody.Part body = MultipartBody.Part.
-                        createFormData("file", FILE.getName(),requestBody);
-                call  =  RestCreator.getRestService().upload(URL,body);
+                        createFormData("file", FILE.getName(), requestBody);
+                call = RestCreator.getRestService().upload(URL, body);
                 break;
             default:
                 break;
@@ -127,7 +137,7 @@ public class RestClient {
     //获取实例
     private Callback<String> getRequestCallback() {
 
-        return new RequestCallbacks(IREQUEST,
+        return new RequestCallbacks(REQUEST,
                 SUCCESS,
                 FAILURE,
                 ERROR,
@@ -170,5 +180,16 @@ public class RestClient {
         request(HttpMethod.DELETE);
     }
 
+
+    public void download() {
+        new DownloadHanlder(URL,
+                REQUEST,
+                DOWNLOAD_DIR,
+                EXTENSION,
+                NAME,
+                SUCCESS,
+                FAILURE, ERROR).handleDownload();
+
+    }
 
 }

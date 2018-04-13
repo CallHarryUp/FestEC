@@ -25,6 +25,9 @@ public class RestClientBuilder {
     private String mUrl;
     private Map<String, Object> PARAMS = RestCreator.getParams();
     private Irequest mIrequest;
+    private String mDownloadDir;
+    private String mExtension;
+    private String mName;
     private ISuccess mIsuccess;
     private IFailure mIFailure;
     private IError mIError;
@@ -71,6 +74,26 @@ public class RestClientBuilder {
         this.mIsuccess = iSuccess;
 
         return this;
+    }
+
+    /**
+     * download方法
+     */
+    public final RestClientBuilder dir(String dir) {
+        this.mDownloadDir = dir;
+        return this;
+    }
+
+    public final RestClientBuilder extension(String extension) {
+        this.mExtension = extension;
+        return this;
+    }
+
+    public final RestClientBuilder name(String name) {
+
+        this.mName = name;
+        return this;
+
     }
 
     public final RestClientBuilder failure(IFailure iFailure) {
@@ -121,6 +144,18 @@ public class RestClientBuilder {
       }
   */
     public final RestClient build() {
-        return new RestClient(mUrl, PARAMS, mIrequest, mIsuccess, mIFailure, mIError, mBody, mFile, mContext, mLoaderStyle);
+        return new RestClient(mUrl,
+                PARAMS,
+                mIrequest,
+                mDownloadDir,
+                mExtension,
+                mName,
+                mIsuccess,
+                mIFailure,
+                mIError,
+                mBody,
+                mFile,
+                mContext,
+                mLoaderStyle);
     }
 }
