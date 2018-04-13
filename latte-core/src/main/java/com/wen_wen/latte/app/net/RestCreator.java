@@ -2,6 +2,7 @@ package com.wen_wen.latte.app.net;
 
 import com.wen_wen.latte.app.app.ConfigKeys;
 import com.wen_wen.latte.app.app.Latte;
+import com.wen_wen.latte.app.net.rx.RxRestService;
 
 import java.util.ArrayList;
 import java.util.WeakHashMap;
@@ -27,12 +28,10 @@ public class RestCreator {
         return ParamsHolder.PARAMS;
     }
 
-    public static RestService getRestService() {
 
-        return RestServiceHolder.REST_SERVICE;
-    }
-
-
+    /**
+     * 构建全局retrofit客户端
+     */
     private static final class RetrofitHolder {
         private static final String BASE_URL = (String) Latte.getConfiguration(ConfigKeys.API_HOST);
 
@@ -66,10 +65,32 @@ public class RestCreator {
                 .build();
     }
 
+    /**
+     * Service接口
+     */
     private static final class RestServiceHolder {
         private static final RestService REST_SERVICE = RetrofitHolder
                 .RETROFIT_CLIENT.create(RestService.class);
     }
+    public static RestService getRestService() {
+
+        return RestServiceHolder.REST_SERVICE;
+    }
+
+
+    /**
+     * Service接口(Rx)
+     */
+    private static final class RxRestServiceHolder {
+        private static final RxRestService REST_SERVICE = RetrofitHolder
+                .RETROFIT_CLIENT.create(RxRestService.class);
+    }
+    public static RxRestService getRxRestService() {
+
+        return RxRestServiceHolder.REST_SERVICE;
+    }
+
+
 
 
 }
