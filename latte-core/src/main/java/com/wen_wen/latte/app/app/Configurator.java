@@ -117,7 +117,7 @@ public class Configurator {
         ICONS.add(descriptor);
         return this;
     }*/
-
+    //拦截器实现
     public final Configurator withInterceptor(Interceptor interceptor) {
         INTERCEPTORS.add(interceptor);
         LATTE_CONFIGS.put(ConfigKeys.INTERCEPTOR, INTERCEPTORS);

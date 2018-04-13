@@ -3,9 +3,11 @@ package com.wen_wen.latte.app.net;
 import com.wen_wen.latte.app.app.ConfigKeys;
 import com.wen_wen.latte.app.app.Latte;
 
+import java.util.ArrayList;
 import java.util.WeakHashMap;
 import java.util.concurrent.TimeUnit;
 
+import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
 import retrofit2.Retrofit;
 import retrofit2.converter.scalars.ScalarsConverterFactory;
@@ -17,13 +19,12 @@ import retrofit2.converter.scalars.ScalarsConverterFactory;
 public class RestCreator {
 
 
-
-    private  static   final   class  ParamsHolder{
-        public  static   final WeakHashMap<String,Object>  PARAMS   =  new WeakHashMap<>();
+    private static final class ParamsHolder {
+        public static final WeakHashMap<String, Object> PARAMS = new WeakHashMap<>();
     }
 
-    public  static  WeakHashMap<String,Object>  getParams (){
-        return  ParamsHolder.PARAMS;
+    public static WeakHashMap<String, Object> getParams() {
+        return ParamsHolder.PARAMS;
     }
 
     public static RestService getRestService() {
@@ -46,8 +47,21 @@ public class RestCreator {
     private static final class OkHttpHolder {
 
         private static final int TIME_OUT = 60;
+        //创建拦截器builder
+        private static final OkHttpClient.Builder BUILDER = new OkHttpClient.Builder();
+        //获取拦截器集合
+        private static final ArrayList<Interceptor> INTERCEPTORS = Latte.getConfiguration(ConfigKeys.INTERCEPTOR);
 
-        private static final OkHttpClient OK_HTTP_CLIENT = new OkHttpClient.Builder()
+        //添加拦截器方法
+        private static OkHttpClient.Builder addInterceptor() {
+            for (Interceptor interceptor : INTERCEPTORS) {
+                BUILDER.addInterceptor(interceptor);
+            }
+
+            return BUILDER;
+        }
+
+        private static final OkHttpClient OK_HTTP_CLIENT = addInterceptor()
                 .connectTimeout(TIME_OUT, TimeUnit.SECONDS)
                 .build();
     }
