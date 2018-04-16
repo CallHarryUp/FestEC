@@ -9,6 +9,8 @@ import android.support.v7.widget.AppCompatTextView;
 import android.view.View;
 
 import com.wen_wen.latte.app.delegate.LatteDelegate;
+import com.wen_wen.latte.app.ui.launcher.ScrollLauncherTag;
+import com.wen_wen.latte.app.util.storage.LattePrefercnce;
 import com.wen_wen.latte.app.util.timer.BaseTimerTask;
 import com.wen_wen.latte.app.util.timer.ITimerListener;
 import com.wen_wen.latte.ec.R;
@@ -45,13 +47,28 @@ public class LauncherDelegate extends LatteDelegate implements ITimerListener {
     @OnClick(R2.id.tv_launcher_timer)
     void onClickTimerView() {
 
-
+        if (mTimer != null) {
+            mTimer.cancel();
+            mTimer = null;
+            checkIsShowScroll();
+        }
     }
 
     @Override
     public void onBindView(@Nullable Bundle savedInstanceState, View rootView) {
         initTimer();
     }
+    //是否展示滚动
+    private   void  checkIsShowScroll(){
+        if (!LattePrefercnce.getAppFlag(ScrollLauncherTag.HAS_FIRST_LAUNCHER_APP.name())) {
+            start(new LauncherScrollDelegate(),SINGLETASK);
+        }else {
+            //检查用户是都登录了APP
+
+        }
+
+    }
+
 
     @Override
     public void onTimer() {
@@ -67,6 +84,7 @@ public class LauncherDelegate extends LatteDelegate implements ITimerListener {
                         if (mTimer != null) {
                             mTimer.cancel();
                             mTimer = null;
+                            checkIsShowScroll();
                         }
                     }
                 }
