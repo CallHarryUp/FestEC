@@ -7,13 +7,14 @@ import android.support.v7.widget.ContentFrameLayout;
 import com.wen_wen.latte.R;
 import com.wen_wen.latte.app.delegate.LatteDelegate;
 
+import me.yokeyword.fragmentation.SupportActivity;
 
 
 /**
  * Created by WeLot on 2018/4/12.
  */
 
-public abstract class ProxyActivity extends me.yokeyword.fragmentation.SupportActivity {
+public abstract class ProxyActivity extends SupportActivity {
 
 
     public abstract LatteDelegate setRootDelegate();

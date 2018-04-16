@@ -2,10 +2,11 @@ package com.wen_wen.latte.app.delegate;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
+import com.wen_wen.latte.app.activities.ProxyActivity;
 
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
@@ -33,15 +34,22 @@ public abstract class BaseDegelate extends SwipeBackFragment {
             rootView = inflater.inflate((Integer) setLayout(), container, false);
         } else if (setLayout() instanceof View) {
             rootView = (View) setLayout();
+        } else {
+            throw new ClassCastException(" setLayout()  type  must  be int  or view");
         }
         if (rootView != null) {
             mUnbinder = ButterKnife.bind(this, rootView);
-            Log.d("111","绑定视图");
             onBindView(savedInstanceState, rootView);
         }
 
         return rootView;
     }
+
+    public final ProxyActivity getProxyActivity() {
+
+        return (ProxyActivity) _mActivity;
+    }
+
 
     @Override
     public void onDestroyView() {
