@@ -46,7 +46,6 @@ public class LauncherDelegate extends LatteDelegate implements ITimerListener {
 
     @OnClick(R2.id.tv_launcher_timer)
     void onClickTimerView() {
-
         if (mTimer != null) {
             mTimer.cancel();
             mTimer = null;
