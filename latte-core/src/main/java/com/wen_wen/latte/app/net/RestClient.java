@@ -12,8 +12,8 @@ import com.wen_wen.latte.app.net.callback.IFailure;
 import com.wen_wen.latte.app.net.callback.ISuccess;
 import com.wen_wen.latte.app.net.callback.Irequest;
 import com.wen_wen.latte.app.net.callback.RequestCallbacks;
-import com.wen_wen.latte.app.ui.LatteLoader;
-import com.wen_wen.latte.app.ui.LoaderStyle;
+import com.wen_wen.latte.app.ui.loader.LatteLoader;
+import com.wen_wen.latte.app.ui.loader.LoaderStyle;
 
 import java.io.File;
 import java.util.Map;

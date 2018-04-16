@@ -2,8 +2,8 @@ package com.wen_wen.latte.app.net.callback;
 
 import android.os.Handler;
 
-import com.wen_wen.latte.app.ui.LatteLoader;
-import com.wen_wen.latte.app.ui.LoaderStyle;
+import com.wen_wen.latte.app.ui.loader.LatteLoader;
+import com.wen_wen.latte.app.ui.loader.LoaderStyle;
 
 import retrofit2.Call;
 import retrofit2.Callback;

@@ -1,4 +1,4 @@
-package com.wen_wen.latte.app.ui;
+package com.wen_wen.latte.app.ui.loader;
 
 import android.content.Context;
 
