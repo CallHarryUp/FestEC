@@ -1,5 +1,6 @@
 package com.wen_wen.latte.app.net;
 
+import com.jakewharton.retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 import com.wen_wen.latte.app.app.ConfigKeys;
 import com.wen_wen.latte.app.app.Latte;
 import com.wen_wen.latte.app.net.rx.RxRestService;
@@ -40,6 +41,8 @@ public class RestCreator {
                 .client(OkHttpHolder.OK_HTTP_CLIENT)
                 //转换器  转化为String
                 .addConverterFactory(ScalarsConverterFactory.create())
+                //rxjava转化器
+                .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                 .build();
     }
 
@@ -72,6 +75,7 @@ public class RestCreator {
         private static final RestService REST_SERVICE = RetrofitHolder
                 .RETROFIT_CLIENT.create(RestService.class);
     }
+
     public static RestService getRestService() {
 
         return RestServiceHolder.REST_SERVICE;
@@ -85,12 +89,11 @@ public class RestCreator {
         private static final RxRestService REST_SERVICE = RetrofitHolder
                 .RETROFIT_CLIENT.create(RxRestService.class);
     }
+
     public static RxRestService getRxRestService() {
 
         return RxRestServiceHolder.REST_SERVICE;
     }
-
-
 
 
 }

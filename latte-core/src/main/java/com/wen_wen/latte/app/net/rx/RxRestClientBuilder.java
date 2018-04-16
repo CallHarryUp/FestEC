@@ -3,10 +3,6 @@ package com.wen_wen.latte.app.net.rx;
 import android.content.Context;
 
 import com.wen_wen.latte.app.net.RestCreator;
-import com.wen_wen.latte.app.net.callback.IError;
-import com.wen_wen.latte.app.net.callback.IFailure;
-import com.wen_wen.latte.app.net.callback.ISuccess;
-import com.wen_wen.latte.app.net.callback.Irequest;
 import com.wen_wen.latte.app.ui.LoaderStyle;
 
 import java.io.File;
@@ -25,13 +21,7 @@ public class RxRestClientBuilder {
 
     private String mUrl;
     private Map<String, Object> PARAMS = RestCreator.getParams();
-    private Irequest mIrequest;
-    private String mDownloadDir;
-    private String mExtension;
-    private String mName;
-    private ISuccess mIsuccess;
-    private IFailure mIFailure;
-    private IError mIError;
+
     private RequestBody mBody;
     private File mFile;
     private Context mContext;
@@ -64,51 +54,6 @@ public class RxRestClientBuilder {
 
         return this;
     }
-
-    public final RxRestClientBuilder onRequest(Irequest irequest) {
-        this.mIrequest = irequest;
-        return this;
-    }
-
-    public final RxRestClientBuilder success(ISuccess iSuccess) {
-
-        this.mIsuccess = iSuccess;
-
-        return this;
-    }
-
-    /**
-     * download方法
-     */
-    public final RxRestClientBuilder dir(String dir) {
-        this.mDownloadDir = dir;
-        return this;
-    }
-
-    public final RxRestClientBuilder extension(String extension) {
-        this.mExtension = extension;
-        return this;
-    }
-
-    public final RxRestClientBuilder name(String name) {
-
-        this.mName = name;
-        return this;
-
-    }
-
-    public final RxRestClientBuilder failure(IFailure iFailure) {
-
-        this.mIFailure = iFailure;
-        return this;
-    }
-
-    public final RxRestClientBuilder error(IError iError) {
-
-        this.mIError = iError;
-        return this;
-    }
-
     //文件
     public final RxRestClientBuilder file(File file) {
         this.mFile = file;
@@ -147,13 +92,6 @@ public class RxRestClientBuilder {
     public final RxRestClient build() {
         return new RxRestClient(mUrl,
                 PARAMS,
-                mIrequest,
-                mDownloadDir,
-                mExtension,
-                mName,
-                mIsuccess,
-                mIFailure,
-                mIError,
                 mBody,
                 mFile,
                 mContext,

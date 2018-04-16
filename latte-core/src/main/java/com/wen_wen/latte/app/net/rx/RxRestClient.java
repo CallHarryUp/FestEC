@@ -8,12 +8,6 @@ import android.content.Context;
 
 import com.wen_wen.latte.app.net.HttpMethod;
 import com.wen_wen.latte.app.net.RestCreator;
-import com.wen_wen.latte.app.net.callback.IError;
-import com.wen_wen.latte.app.net.callback.IFailure;
-import com.wen_wen.latte.app.net.callback.ISuccess;
-import com.wen_wen.latte.app.net.callback.Irequest;
-import com.wen_wen.latte.app.net.callback.RequestCallbacks;
-import com.wen_wen.latte.app.net.download.DownloadHanlder;
 import com.wen_wen.latte.app.ui.LatteLoader;
 import com.wen_wen.latte.app.ui.LoaderStyle;
 
@@ -25,7 +19,7 @@ import io.reactivex.Observable;
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
-import retrofit2.Callback;
+import okhttp3.ResponseBody;
 
 /**
  * 设计模式：
@@ -38,13 +32,6 @@ public class RxRestClient {
 
     private final String URL;
     private static final WeakHashMap<String, Object> PARAMS = RestCreator.getParams();
-    private final Irequest REQUEST;
-    private final String DOWNLOAD_DIR;
-    private final String EXTENSION;
-    private final String NAME;
-    private final ISuccess SUCCESS;
-    private final IFailure FAILURE;
-    private final IError ERROR;
     private final RequestBody BODY;
     private final LoaderStyle LOADER_STYLE;
     private final Context CONTEXT;
@@ -52,13 +39,6 @@ public class RxRestClient {
 
 
     public RxRestClient(String url, Map<String, Object> params,
-                        Irequest request,
-                        String downloadDir,
-                        String extension,
-                        String name,
-                        ISuccess success,
-                        IFailure failure,
-                        IError error,
                         RequestBody body,
                         File file,
                         Context context,
@@ -67,13 +47,6 @@ public class RxRestClient {
     ) {
         this.URL = url;
         PARAMS.putAll(params);
-        this.REQUEST = request;
-        this.DOWNLOAD_DIR = downloadDir;
-        this.EXTENSION = extension;
-        this.NAME = name;
-        this.SUCCESS = success;
-        this.FAILURE = failure;
-        this.ERROR = error;
         this.BODY = body;
         this.FILE = file;
         this.LOADER_STYLE = loaderStyle;
@@ -91,9 +64,7 @@ public class RxRestClient {
         final RxRestService service = RestCreator.getRxRestService();
         Observable<String> observable = null;
 
-        if (REQUEST != null) {
-            REQUEST.onRequestStart();
-        }
+
         //在请求开始是 调用loader  展示
         if (LOADER_STYLE != null) {
             LatteLoader.showLoading(CONTEXT, LOADER_STYLE);
@@ -132,60 +103,65 @@ public class RxRestClient {
     }
 
     //获取实例
-    private Callback<String> getRequestCallback() {
+   /* private Callback<String> getRequestCallback() {
 
         return new RequestCallbacks(REQUEST,
                 SUCCESS,
                 FAILURE,
                 ERROR,
                 LOADER_STYLE);
-    }
+    }*/
 
     //创建请求方法
-    public final void get() {
+    public final Observable<String> get() {
 
-        request(HttpMethod.GET);
+        return request(HttpMethod.GET);
     }
 
     //对post进行判断  是否请求原始数据
-    public final void post() {
+    public final Observable<String> post() {
         if (BODY == null) {
-            request(HttpMethod.POST);
+            return request(HttpMethod.POST);
         } else {
             if (!PARAMS.isEmpty()) {
                 throw new RuntimeException("params  must be null!");
             }
-            request(HttpMethod.POST_RAW);
+            return request(HttpMethod.POST_RAW);
         }
 
     }
 
-    public final void put() {
+    public final Observable<String> put() {
         if (BODY == null) {
-            request(HttpMethod.PUT);
+            return request(HttpMethod.PUT);
         } else {
             if (!PARAMS.isEmpty()) {
                 throw new RuntimeException("params must be null!");
             }
-            request(HttpMethod.PUT_RAM);
+            return request(HttpMethod.PUT_RAM);
         }
 
 
     }
 
-    public final void delete() {
-        request(HttpMethod.DELETE);
+    public final Observable<String> delete() {
+        return request(HttpMethod.DELETE);
     }
 
 
-    public void download() {
-        new DownloadHanlder(URL,
+    public Observable<ResponseBody> download() {
+
+        final Observable<ResponseBody> responseBodyObservable = RestCreator.getRxRestService().download(URL, PARAMS);
+
+        return responseBodyObservable;
+
+       /* return new DownloadHanlder(URL,
                 REQUEST,
                 DOWNLOAD_DIR,
                 EXTENSION,
                 NAME,
                 SUCCESS,
-                FAILURE, ERROR).handleDownload();
+                FAILURE, ERROR).handleDownload();*/
 
     }
 
