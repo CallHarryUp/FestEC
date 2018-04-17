@@ -8,6 +8,8 @@ import android.view.View;
 import android.widget.Toast;
 
 import com.wen_wen.latte.app.delegate.LatteDelegate;
+import com.wen_wen.latte.app.net.RestClient;
+import com.wen_wen.latte.app.net.callback.ISuccess;
 import com.wen_wen.latte.ec.R;
 import com.wen_wen.latte.ec.R2;
 
@@ -34,15 +36,21 @@ public class SignUpDelegate extends LatteDelegate {
     @OnClick(R2.id.btn_sign_up)
     void onClickSignUp() {
         if (checkForm()) {
-            /*RestClient.builder()
+            RestClient.builder()
                     .url("sign_up")
+                    .params("name",mName.getText().toString())
+                    .params("email",mEmail.getText().toString())
+                    .params("phone",mPhone.getText().toString())
+                    .params("password",mPassword.getText().toString())
                     .success(new ISuccess() {
                         @Override
                         public void OnSuccess(String response) {
-
+                            //数据持久化
+                            SignHanlder.onSingnUp(response);
                         }
                     })
-                    .build().post();*/
+                    .build()
+                    .post();
             Toast.makeText(getContext(),"验证通过",Toast.LENGTH_SHORT).show();
         }
     }

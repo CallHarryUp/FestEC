@@ -21,7 +21,8 @@ android {
 
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
-
     annotationProcessor project(':latte-complier')
     compile project(':latte-ec')
+
+
 }
