@@ -1,5 +1,6 @@
 package com.wen_wen.latte.ec.launcher.sign;
 
+import android.app.Activity;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TextInputEditText;
@@ -7,6 +8,10 @@ import android.util.Patterns;
 import android.view.View;
 
 import com.wen_wen.latte.app.delegate.LatteDelegate;
+import com.wen_wen.latte.app.net.RestClient;
+import com.wen_wen.latte.app.net.callback.IError;
+import com.wen_wen.latte.app.net.callback.IFailure;
+import com.wen_wen.latte.app.net.callback.ISuccess;
 import com.wen_wen.latte.ec.R;
 import com.wen_wen.latte.ec.R2;
 
@@ -23,8 +28,49 @@ public class SignInDelegate extends LatteDelegate {
     @BindView(R2.id.edit_sign_in_password)
     TextInputEditText mPassword = null;
 
+    private ISignListener mISignListener;
+
+    @Override
+    public void onAttach(Activity activity) {
+        super.onAttach(activity);
+        if (activity instanceof ISignListener) {
+            mISignListener = (ISignListener) activity;
+        }
+    }
+
     @OnClick(R2.id.btn_sign_in)
     void onclickSingnIn() {
+        if (checkForm()) {
+            RestClient.builder()
+                    .url("sign_in")
+                    .params("email", mEmail.getText().toString())
+                    .params("password", mPassword.getText().toString())
+                    .success(new ISuccess() {
+                        @Override
+                        public void OnSuccess(String response) {
+                            SignHanlder.onSingnUp(response, mISignListener);
+                        }
+                    })
+                    .failure(new IFailure() {
+                        @Override
+                        public void onFailure() {
+
+                        }
+                    })
+                    .error(new IError() {
+                        @Override
+                        public void onError(int code, String msg) {
+
+                        }
+                    })
+                    .build()
+                    .post();
+        }
+
+
+        //虚拟返回默认返回成功
+        SignHanlder.onSingnIn("", mISignListener);
+
 
     }
 
@@ -34,10 +80,9 @@ public class SignInDelegate extends LatteDelegate {
     }
 
     @OnClick(R2.id.tv_link_sign_up)
-    void   onClickLink(){
+    void onClickLink() {
         start(new SignUpDelegate());
     }
-
 
 
     private boolean checkForm() {

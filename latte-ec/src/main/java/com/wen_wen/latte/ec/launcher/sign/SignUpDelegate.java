@@ -1,8 +1,10 @@
 package com.wen_wen.latte.ec.launcher.sign;
 
+import android.app.Activity;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TextInputEditText;
+import android.util.Log;
 import android.util.Patterns;
 import android.view.View;
 import android.widget.Toast;
@@ -33,30 +35,45 @@ public class SignUpDelegate extends LatteDelegate {
     @BindView(R2.id.edit_sign_up_re_password)
     TextInputEditText mRePassword;
 
+    private ISignListener mISignListener;
+
+
+
+    @Override
+    public void onAttach(Activity activity) {
+        super.onAttach(activity);
+        if (activity instanceof ISignListener) {
+            mISignListener = (ISignListener) activity;
+            Log.d("111","执行");
+        }
+    }
+
     @OnClick(R2.id.btn_sign_up)
     void onClickSignUp() {
         if (checkForm()) {
             RestClient.builder()
                     .url("sign_up")
-                    .params("name",mName.getText().toString())
-                    .params("email",mEmail.getText().toString())
-                    .params("phone",mPhone.getText().toString())
-                    .params("password",mPassword.getText().toString())
+                    .params("name", mName.getText().toString())
+                    .params("email", mEmail.getText().toString())
+                    .params("phone", mPhone.getText().toString())
+                    .params("password", mPassword.getText().toString())
                     .success(new ISuccess() {
                         @Override
                         public void OnSuccess(String response) {
                             //数据持久化
-                            SignHanlder.onSingnUp(response);
+                            SignHanlder.onSingnUp(response, mISignListener);
                         }
                     })
                     .build()
                     .post();
-            Toast.makeText(getContext(),"验证通过",Toast.LENGTH_SHORT).show();
+            Toast.makeText(getContext(), "验证通过", Toast.LENGTH_SHORT).show();
+
+            SignHanlder.onSingnUp("", mISignListener);
         }
     }
 
     @OnClick(R2.id.tv_link_sign_in)
-    void  onClickLink(){
+    void onClickLink() {
         start(new SignInDelegate());
     }
 
@@ -83,7 +100,7 @@ public class SignUpDelegate extends LatteDelegate {
             mName.setError(null);
         }
 
-        if (email.isEmpty() || Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
+        if (email.isEmpty() || !Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
             mEmail.setError("邮箱地址错误！");
             isPass = false;
         } else {
@@ -110,7 +127,6 @@ public class SignUpDelegate extends LatteDelegate {
             mRePassword.setError(null);
         }
         return isPass;
-
 
 
     }
