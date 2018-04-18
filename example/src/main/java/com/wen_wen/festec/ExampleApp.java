@@ -19,6 +19,8 @@ public class ExampleApp extends Application {
                 .withApiHost("http://127.0.0.1/")
                 .withLoaderDelayed(1000)
                 .withInterceptor(new DebugInterceptor("index",R.raw.text))
+                .withWeChatAppId("")
+                .withWeChatAppSecret("")
                 .configure();
 
         //初始化数据库

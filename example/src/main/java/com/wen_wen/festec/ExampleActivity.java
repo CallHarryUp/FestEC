@@ -5,6 +5,7 @@ import android.widget.Toast;
 
 import com.wen_wen.festec.example.ExampleDelegate;
 import com.wen_wen.latte.app.activities.ProxyActivity;
+import com.wen_wen.latte.app.app.Latte;
 import com.wen_wen.latte.app.delegate.LatteDelegate;
 import com.wen_wen.latte.app.ui.launcher.IlauncherListener;
 import com.wen_wen.latte.app.ui.launcher.OnLauncherFinishTag;
@@ -29,6 +30,8 @@ public class ExampleActivity extends ProxyActivity implements ISignListener, Ila
         if (actionBar != null) {
             actionBar.hide();
         }
+        //添加上下文
+        Latte.getConfigurator().withActivity(this);
     }
 
     @Override

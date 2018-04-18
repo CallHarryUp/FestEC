@@ -1,4 +1,4 @@
-package com.wen_wen.latte.app.wechat;
+package com.wen_wen.latte.app.wechat.templates;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;
