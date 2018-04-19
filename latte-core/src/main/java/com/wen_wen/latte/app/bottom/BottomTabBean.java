@@ -7,11 +7,11 @@ package com.wen_wen.latte.app.bottom;
  * 好处：将变量声明为final在并发编程中 安全
  */
 
-public class BottonTabBean {
+public class BottomTabBean {
     private   final  CharSequence  ICON;
     private  final   CharSequence TITLE;
 
-    public BottonTabBean(CharSequence icon, CharSequence title) {
+    public BottomTabBean(CharSequence icon, CharSequence title) {
         this.ICON = icon;
         this.TITLE = title;
     }

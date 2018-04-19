@@ -1,17 +1,20 @@
 package com.wen_wen.festec;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.Toast;
 
-import com.wen_wen.festec.example.ExampleDelegate;
 import com.wen_wen.latte.app.activities.ProxyActivity;
 import com.wen_wen.latte.app.app.Latte;
 import com.wen_wen.latte.app.delegate.LatteDelegate;
 import com.wen_wen.latte.app.ui.launcher.IlauncherListener;
 import com.wen_wen.latte.app.ui.launcher.OnLauncherFinishTag;
 import com.wen_wen.latte.ec.launcher.launcher.LauncherDelegate;
+import com.wen_wen.latte.ec.launcher.main.EcBottomDelegate;
 import com.wen_wen.latte.ec.launcher.sign.ISignListener;
 import com.wen_wen.latte.ec.launcher.sign.SignInDelegate;
+
+import qiu.niorgai.StatusBarCompat;
 
 /**
  * 1、判断是不是第一次启动app
@@ -32,6 +35,8 @@ public class ExampleActivity extends ProxyActivity implements ISignListener, Ila
         }
         //添加上下文
         Latte.getConfigurator().withActivity(this);
+        StatusBarCompat.translucentStatusBar(this, true);
+
     }
 
     @Override
@@ -53,12 +58,13 @@ public class ExampleActivity extends ProxyActivity implements ISignListener, Ila
     public void onLauncherFinish(OnLauncherFinishTag tag) {
         switch (tag) {
             case SINNED:
-                startWithPop(new ExampleDelegate());
+                getSupportDelegate().startWithPop(new EcBottomDelegate());
+                Log.d("111","开始执行");
                 Toast.makeText(getApplicationContext(), "启动结束 ，用户登录", Toast.LENGTH_SHORT).show();
                 break;
             case NOT_SIGNED:
                 Toast.makeText(getApplicationContext(), "启动结束 ，用户没登录", Toast.LENGTH_SHORT).show();
-                startWithPop(new SignInDelegate());
+                getSupportDelegate().startWithPop(new SignInDelegate());
                 break;
         }
     }

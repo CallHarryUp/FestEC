@@ -65,5 +65,7 @@ dependencies {
     compile 'org.greenrobot:greendao:3.2.2'
     //微信依赖(包含统计)
     compile 'com.tencent.mm.opensdk:wechat-sdk-android-with-mta:+'
+    //沉浸式状态栏
+    compile 'com.github.niorgai:StatusBarCompat:2.1.3'
 
 }

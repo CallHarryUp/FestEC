@@ -29,7 +29,7 @@ import javax.lang.model.element.TypeElement;
 public class LatteProcessor extends AbstractProcessor {
 
 
-    //获取注解类型
+    //
     @Override
     public Set<String> getSupportedAnnotationTypes() {
         final Set<String> types = new LinkedHashSet<>();
@@ -41,7 +41,7 @@ public class LatteProcessor extends AbstractProcessor {
         return types;
     }
 
-    //获取被注解修饰的类的类型
+    //
     private Set<Class<? extends Annotation>> getsupportedAnnoatations() {
         final Set<Class<? extends Annotation>> annoations = new LinkedHashSet<>();
         annoations.add(EntryGenerator.class);
@@ -59,21 +59,21 @@ public class LatteProcessor extends AbstractProcessor {
     }
 
     /**
-     * @param env       系统运行的整个环境
+     * @param env
      * @param annoation
      * @param visitor
      */
     private void scan(RoundEnvironment env,
                       Class<? extends Annotation> annoation,
                       AnnotationValueVisitor visitor) {
-        //获取被注解修饰的元素
+        //
         for (Element typeElement : env.getElementsAnnotatedWith(annoation)) {
             List<? extends AnnotationMirror> annotationMirrors = typeElement.getAnnotationMirrors();
-            //镜像
+            //
             for (AnnotationMirror annotationMirror : annotationMirrors) {
                 /**
-                 * 键：可执行的element
-                 * 值：注解的值
+                 *
+                 *
                  */
                 final Map<? extends ExecutableElement, ? extends AnnotationValue> elementValue =
                         annotationMirror.getElementValues();
@@ -89,35 +89,35 @@ public class LatteProcessor extends AbstractProcessor {
     }
 
     /**
-     * 生成微信entryActivity
+     *
      */
     private void generateEntryCode(RoundEnvironment env) {
         final EntryVisitor entryVisitor = new EntryVisitor();
         entryVisitor.setmFiler(processingEnv.getFiler());
-        //扫描
+        //
         scan(env,EntryGenerator.class,entryVisitor);
 
     }
 
     /**
-     * 生成微信entryPayActivity
+     *
      */
     private void generatePayEntryCode(RoundEnvironment env) {
         final PayEntryVisitor entryVisitor = new PayEntryVisitor();
         entryVisitor.setmFiler(processingEnv.getFiler());
-        //扫描
+        //
         scan(env,PayEntryGenerator.class,entryVisitor);
 
     }
 
 
     /**
-     * 生成微信entryActivity
+     *
      */
     private void generateAppRegisterEntryCode(RoundEnvironment env) {
         final AppRegisterEntryVisitor entryVisitor = new AppRegisterEntryVisitor();
         entryVisitor.setmFiler(processingEnv.getFiler());
-        //扫描
+        //
         scan(env,AppRegisterGenerator.class,entryVisitor);
 
     }

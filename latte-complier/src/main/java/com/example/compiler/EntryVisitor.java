@@ -16,9 +16,9 @@ import javax.lang.model.util.SimpleAnnotationValueVisitor7;
  */
 
 public final class EntryVisitor extends SimpleAnnotationValueVisitor7<Void, Void> {
-    //需要遍历
+    //
     private Filer mFiler;
-    //类型
+    //
     private TypeMirror mTypeMirror;
     private String mPackageName;
 
@@ -34,9 +34,8 @@ public final class EntryVisitor extends SimpleAnnotationValueVisitor7<Void, Void
     }
 
     /**
-     * 找出注解修饰类 并找出注解的元信息，生成代码
      */
-    //type 类类型
+    //type
     @Override
     public Void visitType(TypeMirror typeMirror, Void p) {
         mTypeMirror = typeMirror;
@@ -46,18 +45,17 @@ public final class EntryVisitor extends SimpleAnnotationValueVisitor7<Void, Void
     }
 
     /**
-     * 生成，模板代码
      */
     private void generateJavaCode() {
-        //生成需要的类
-        final TypeSpec targetActivity = TypeSpec.classBuilder("WXEntryActivity")//传入类名
+        //
+        final TypeSpec targetActivity = TypeSpec.classBuilder("WXEntryActivity")//
                 .addModifiers(Modifier.PUBLIC)
                 .addModifiers(Modifier.FINAL)
-                .superclass(TypeName.get(mTypeMirror))//继承自从注解中拿出来的类类型
+                .superclass(TypeName.get(mTypeMirror))//
                 .build();
-        //生成文件                                    //包名
+        //                                    //
         final JavaFile  javaFile   =  JavaFile.builder(mPackageName+".wxapi",targetActivity)
-                .addFileComment("微信入口文件")//注释
+                .addFileComment("微信入口文件")//
                 .build();
 
         try {

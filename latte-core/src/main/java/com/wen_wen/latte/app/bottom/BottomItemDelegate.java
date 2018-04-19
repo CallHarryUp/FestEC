@@ -1,10 +1,9 @@
 package com.wen_wen.latte.app.bottom;
 
-import android.view.KeyEvent;
-import android.view.View;
 import android.widget.Toast;
 
 import com.wen_wen.latte.R;
+import com.wen_wen.latte.app.app.Latte;
 import com.wen_wen.latte.app.delegate.LatteDelegate;
 
 /**
@@ -13,8 +12,8 @@ import com.wen_wen.latte.app.delegate.LatteDelegate;
  * 点击back键两次退出
  */
 
-public abstract class BottomItemDelegate extends LatteDelegate implements View.OnKeyListener {
-    private long mExitTime = 0;
+public abstract class BottomItemDelegate extends LatteDelegate  {
+   /* private long mExitTime = 0;
     private static final int EXIT_TIME = 2000;
     //fragment 问题：每次回到页面的时候 需要重新requestFocus 一次
     //
@@ -46,5 +45,20 @@ public abstract class BottomItemDelegate extends LatteDelegate implements View.O
         }
 
         return false;
+    }*/
+
+    // 再点一次退出程序时间设置
+    private static final long WAIT_TIME = 2000L;
+    private long TOUCH_TIME = 0;
+
+    @Override
+    public boolean onBackPressedSupport() {
+        if (System.currentTimeMillis() - TOUCH_TIME < WAIT_TIME) {
+            _mActivity.finish();
+        } else {
+            TOUCH_TIME = System.currentTimeMillis();
+            Toast.makeText(_mActivity, "双击退出" + Latte.getApplicationContext().getString(R.string.app_name), Toast.LENGTH_SHORT).show();
+        }
+        return true;
     }
 }

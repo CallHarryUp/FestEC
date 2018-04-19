@@ -8,25 +8,25 @@ import java.util.LinkedHashMap;
 
 public final class ItemBuilder {
     //有序展示数据
-    private final LinkedHashMap<BottonTabBean, BottomItemDelegate> ITEMS = new LinkedHashMap<>();
+    private final LinkedHashMap<BottomTabBean, BottomItemDelegate> ITEMS = new LinkedHashMap<>();
 
     //使用简单工厂的设计模式 创建  可以让参数一目了然
     static ItemBuilder builder() {
         return new ItemBuilder();
     }
 
-    public final ItemBuilder addItem(BottonTabBean bean, BottomItemDelegate delegate) {
+    public final ItemBuilder addItem(BottomTabBean bean, BottomItemDelegate delegate) {
         ITEMS.put(bean, delegate);
         return this;
     }
 
-    public final ItemBuilder addItems(LinkedHashMap<BottonTabBean, BottomItemDelegate> items) {
+    public final ItemBuilder addItems(LinkedHashMap<BottomTabBean, BottomItemDelegate> items) {
         ITEMS.putAll(items);
         return this;
     }
 
 
-    public final LinkedHashMap<BottonTabBean, BottomItemDelegate> build() {
+    public final LinkedHashMap<BottomTabBean, BottomItemDelegate> build() {
         return ITEMS;
     }
 
