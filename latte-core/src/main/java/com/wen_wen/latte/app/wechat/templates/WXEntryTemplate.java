@@ -13,7 +13,6 @@ import com.wen_wen.latte.app.wechat.LatteWeChat;
 
 public class WXEntryTemplate extends BaseWXEntryActivity {
 
-
     @Override
     protected void onResume() {
         super.onResume();
@@ -25,4 +24,5 @@ public class WXEntryTemplate extends BaseWXEntryActivity {
     protected void onSignInSuccess(String userInfo) {
         LatteWeChat.getInstance().getmSignInCallback().onSignInSuccess(userInfo);
     }
+
 }
