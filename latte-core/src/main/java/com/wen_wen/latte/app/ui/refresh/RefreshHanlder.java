@@ -3,6 +3,8 @@ package com.wen_wen.latte.app.ui.refresh;
 import android.support.v4.widget.SwipeRefreshLayout;
 
 import com.wen_wen.latte.app.app.Latte;
+import com.wen_wen.latte.app.net.RestClient;
+import com.wen_wen.latte.app.net.callback.ISuccess;
 
 /**
  * Created by WeLot on 2018/4/19.
@@ -24,6 +26,19 @@ public class RefreshHanlder implements SwipeRefreshLayout.OnRefreshListener {
                  REFRESH_LAYOUT.setRefreshing(false);
             }
         },2000);//2秒延时
+    }
+    //首页数据
+    public   void firstPage(String  url){
+        RestClient.builder()
+                .url(url)
+                .success(new ISuccess() {
+                    @Override
+                    public void OnSuccess(String response) {
+
+                    }
+                })
+                .build()
+                .get();
     }
 
     @Override
