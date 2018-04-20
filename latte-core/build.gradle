@@ -55,7 +55,7 @@ dependencies {
     compile 'com.joanzapata.iconify:android-iconify:2.2.2'
     compile 'com.joanzapata.iconify:android-iconify-fontawesome:2.2.1'
     //fastjson
-    compile 'com.alibaba:fastjson:1.2.46'
+    compile 'com.alibaba:fastjson:1.1.57.android'
     //design
     compile 'com.android.support:design:26.0.0-alpha1'
     //Log

@@ -20,6 +20,11 @@ public class MulitipleItemEntity implements MultiItemEntity {
     public MulitipleItemEntity(LinkedHashMap<Object,Object> fileds) {
        FIELDS_REFERCNCE.get().putAll(fileds);
     }
+    public  static  MultipleEntityBuilder builder(){
+
+        return   new MultipleEntityBuilder();
+    }
+
 
     //控制每一个item的样式
     @Override

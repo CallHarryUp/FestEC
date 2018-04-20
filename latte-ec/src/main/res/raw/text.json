@@ -11,7 +11,6 @@
         "http://imgsrc.baidu.com/baike/pic/item/342ac65c10385343e23cf54c9113b07ecb8088ef.jpg",
         "http://imgsrc.baidu.com/baike/pic/item/342ac65c10385343e23cf54c9113b07ecb8088ef.jpg",
         "http://pic.58pic.com/58pic/huace/00/06/74/00/52aa5e5b124cd/jpg"
-
       ]
     },
     {
@@ -33,11 +32,9 @@
       "spanSize":2
     },
     {
-
       "goodsId":4,
       "imgUrl":"http://image2.homevv.com/files/product/big/20141110/13404600.jpg",
       "spanSize":2
-
     },
     {
 
@@ -47,7 +44,6 @@
 
     },
     {
-
       "goodsId":4,
       "imgUrl":"http://img.yougou.com/pics/adidas/2012/21006606/21006606_03_mb.jpg",
       "spanSize":2
@@ -69,6 +65,5 @@
       "imgUrl":"http://imgsrc.baidu.com/baike/item/0b55b319ebc4b745a5395aecffc1e178a821576.jpg",
       "spanSize":4
     }
-
   ]
 }

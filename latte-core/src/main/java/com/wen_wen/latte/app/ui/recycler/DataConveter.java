@@ -1,5 +1,7 @@
 package com.wen_wen.latte.app.ui.recycler;
 
+import android.util.Log;
+
 import java.util.ArrayList;
 
 /**
@@ -9,7 +11,7 @@ import java.util.ArrayList;
 
 public abstract class DataConveter {
 
-    protected final ArrayList<MulitipleItemEntity> ENTOES = new ArrayList<>();
+    protected final ArrayList<MulitipleItemEntity> ENTITIES = new ArrayList<>();
     private String mJsondata = null;
 
     public abstract ArrayList<MulitipleItemEntity> convert();
@@ -17,7 +19,6 @@ public abstract class DataConveter {
     public DataConveter setJsonData(String json) {
 
         this.mJsondata = json;
-
         return this;
     }
 
@@ -26,6 +27,7 @@ public abstract class DataConveter {
         if (mJsondata == null || mJsondata.isEmpty()) {
             throw new NullPointerException("DATA  IS  NULL");
         }
+        Log.d("111","jsonData:"+mJsondata);
         return mJsondata;
     }
 

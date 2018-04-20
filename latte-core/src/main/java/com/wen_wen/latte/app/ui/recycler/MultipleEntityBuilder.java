@@ -1,7 +1,5 @@
 package com.wen_wen.latte.app.ui.recycler;
 
-import com.chad.library.adapter.base.entity.MultiItemEntity;
-
 import java.util.LinkedHashMap;
 
 /**
@@ -37,7 +35,7 @@ public class MultipleEntityBuilder {
         return this;
     }
 
-    public final MultiItemEntity build() {
+    public final MulitipleItemEntity build() {
 
         return new MulitipleItemEntity(FIELDS);
     }
