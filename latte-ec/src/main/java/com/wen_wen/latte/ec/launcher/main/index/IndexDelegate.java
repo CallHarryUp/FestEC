@@ -51,7 +51,7 @@ public class IndexDelegate extends BottomItemDelegate {
                 .success(new ISuccess() {
                     @Override
                     public void OnSuccess(String response) {
-                        IndexDataConverter  converter  =  new IndexDataConverter();
+                       IndexDataConverter  converter  =  new IndexDataConverter();
                         converter.setJsonData(response);
                         ArrayList<MulitipleItemEntity> list = converter.convert();
                         String image = list.get(1).getField(MulitipleFields.IMAGE_URL);
@@ -72,7 +72,6 @@ public class IndexDelegate extends BottomItemDelegate {
                     }
                 })
                 .build()
-
                 .get();
 
        /* String json = FileUtil.getRawFile(R.raw.text);
