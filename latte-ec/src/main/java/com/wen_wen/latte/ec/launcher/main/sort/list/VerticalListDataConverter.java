@@ -14,7 +14,7 @@ import java.util.ArrayList;
  * Created by WeLot on 2018/4/23.
  */
 
-public class VerticalListDataConverter extends DataConveter {
+public final class VerticalListDataConverter extends DataConveter {
 
 
     @Override
