@@ -44,9 +44,9 @@ public class MultipleRecyclerAdapter extends BaseMultiItemQuickAdapter<
     //初始化布局
     private void init() {
         addItemType(ItemType.TEXT, R.layout.item_mulitiple_text);
-        addItemType(ItemType.TEXT, R.layout.item_mulitiple_image);
-        addItemType(ItemType.TEXT, R.layout.item_mulitiple_image_text);
-        addItemType(ItemType.TEXT, R.layout.item_mulitiple_banner);
+        addItemType(ItemType.IMAGE, R.layout.item_mulitiple_image);
+        addItemType(ItemType.TEXT_IMAGE, R.layout.item_mulitiple_image_text);
+        addItemType(ItemType.BANNER, R.layout.item_mulitiple_banner);
         //设置宽度监听
         setSpanSizeLookup(this);
         openLoadAnimation();//打开加载会有动画效果
@@ -95,7 +95,6 @@ public class MultipleRecyclerAdapter extends BaseMultiItemQuickAdapter<
                     BannerCreator.setDefault(convenientBanner, bannersImages, this);
                     mIsInitBanner = true;
                 }
-
                 break;
             default:
                 break;

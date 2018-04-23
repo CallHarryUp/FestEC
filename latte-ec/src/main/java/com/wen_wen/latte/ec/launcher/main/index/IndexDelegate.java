@@ -4,24 +4,17 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.AppCompatEditText;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 
 import com.wen_wen.latte.app.bottom.BottomItemDelegate;
-import com.wen_wen.latte.app.net.RestClient;
-import com.wen_wen.latte.app.net.callback.IError;
-import com.wen_wen.latte.app.net.callback.IFailure;
-import com.wen_wen.latte.app.net.callback.ISuccess;
-import com.wen_wen.latte.app.ui.recycler.MulitipleFields;
-import com.wen_wen.latte.app.ui.recycler.MulitipleItemEntity;
+import com.wen_wen.latte.app.ui.refresh.PagingBean;
 import com.wen_wen.latte.app.ui.refresh.RefreshHanlder;
 import com.wen_wen.latte.ec.R;
 import com.wen_wen.latte.ec.R2;
-
-import java.util.ArrayList;
 
 import butterknife.BindView;
 
@@ -41,12 +34,13 @@ public class IndexDelegate extends BottomItemDelegate {
     @BindView(R2.id.et_search_view)
     AppCompatEditText mSearchView = null;
 
-    private RefreshHanlder  mRefreshHanlder;
+    private RefreshHanlder mRefreshHanlder;
+
     @Override
     public void onBindView(@Nullable Bundle savedInstanceState, View rootView) {
         // initRefreshLayout();
-        mRefreshHanlder  = new RefreshHanlder(mRefreshLayout);
-        RestClient.builder()
+        mRefreshHanlder = new RefreshHanlder(mRefreshLayout, mRecyclerView, new IndexDataConverter(), new PagingBean());
+        /*RestClient.builder()
                 .url("userInfo/getJson/")
                 .success(new ISuccess() {
                     @Override
@@ -72,7 +66,7 @@ public class IndexDelegate extends BottomItemDelegate {
                     }
                 })
                 .build()
-                .get();
+                .get();*/
 
        /* String json = FileUtil.getRawFile(R.raw.text);
         IndexDataConverter  converter  =  new IndexDataConverter();
@@ -80,9 +74,10 @@ public class IndexDelegate extends BottomItemDelegate {
         ArrayList<MulitipleItemEntity> list = converter.convert();
         String image = list.get(1).getField(MulitipleFields.IMAGE_URL);
 */
-     //   Log.d("111","image:"+json);
+        //   Log.d("111","image:"+json);
 
     }
+
     //初始化swipeRegresh
     private void initRefreshLayout() {
 
@@ -92,14 +87,23 @@ public class IndexDelegate extends BottomItemDelegate {
                 android.R.color.holo_red_light
         );
         //球由小变大 起始高度 终止高度
-       mRefreshLayout.setProgressViewOffset(true, 120, 300);
+        mRefreshLayout.setProgressViewOffset(true, 120, 300);
     }
+
+    //初始化recyclerview布局
+    private void initRecyclerView() {
+        final GridLayoutManager manager = new GridLayoutManager(getContext(), 4);
+        mRecyclerView.setLayoutManager(manager);
+
+    }
+
 
     @Override
     public void onLazyInitView(@Nullable Bundle savedInstanceState) {
         super.onLazyInitView(savedInstanceState);
         initRefreshLayout();
         mRefreshHanlder.firstPage("index.php");
+        initRecyclerView();
     }
 
     @Override

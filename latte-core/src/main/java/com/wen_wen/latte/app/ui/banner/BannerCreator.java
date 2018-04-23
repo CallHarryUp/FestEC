@@ -13,7 +13,6 @@ import java.util.ArrayList;
 
 public class BannerCreator {
 
-
     public static void setDefault(ConvenientBanner<String> convenientBanner
             , ArrayList<String> banners, OnItemClickListener listener) {
         convenientBanner

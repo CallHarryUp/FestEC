@@ -6,6 +6,7 @@ package com.wen_wen.latte.app.ui.recycler;
 
 public enum MulitipleFields {
     ITEM_TYPE,
+    TITLE,
     TEXT,
     IMAGE_URL,
     BANNERS,

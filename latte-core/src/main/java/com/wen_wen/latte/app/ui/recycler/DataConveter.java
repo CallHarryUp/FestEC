@@ -31,4 +31,8 @@ public abstract class DataConveter {
         return mJsondata;
     }
 
+    public void clearData(){
+        ENTITIES.clear();
+    }
+
 }
