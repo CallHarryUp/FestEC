@@ -2,6 +2,7 @@
 <android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical">
 
     <android.support.v4.widget.SwipeRefreshLayout
@@ -17,6 +18,7 @@
     </android.support.v4.widget.SwipeRefreshLayout>
 
     <android.support.v7.widget.Toolbar
+        app:layout_behavior="com.wen_wen.latte.ec.launcher.main.index.TransluncentBehavior"
         android:layout_marginTop="20dp"
         android:id="@+id/tb_index"
         android:layout_width="match_parent"

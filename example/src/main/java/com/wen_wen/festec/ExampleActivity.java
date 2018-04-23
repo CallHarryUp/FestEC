@@ -14,6 +14,8 @@ import com.wen_wen.latte.ec.launcher.main.EcBottomDelegate;
 import com.wen_wen.latte.ec.launcher.sign.ISignListener;
 import com.wen_wen.latte.ec.launcher.sign.SignInDelegate;
 
+import qiu.niorgai.StatusBarCompat;
+
 /**
  * 1、判断是不是第一次启动app
  * 2、判断用户是都登录
@@ -33,7 +35,7 @@ public class ExampleActivity extends ProxyActivity implements ISignListener, Ila
         }
         //添加上下文
         Latte.getConfigurator().withActivity(this);
-      //  StatusBarCompat.translucentStatusBar(this, true);
+        StatusBarCompat.translucentStatusBar(this, true);
 
     }
 

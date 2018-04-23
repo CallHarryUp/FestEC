@@ -106,7 +106,6 @@ public class IndexDelegate extends BottomItemDelegate {
         mRecyclerView.setLayoutManager(manager);
         mRecyclerView.addItemDecoration(BaseDecoration.create(ContextCompat.getColor(getContext(), R.color.app_background),5));
 
-
     }
 
 
