@@ -5,6 +5,7 @@ import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.AppCompatTextView;
 import android.view.View;
 
+import com.wen_wen.latte.app.delegate.LatteDelegate;
 import com.wen_wen.latte.app.ui.recycler.ItemType;
 import com.wen_wen.latte.app.ui.recycler.MulitipleFields;
 import com.wen_wen.latte.app.ui.recycler.MultiipleItemEntity;
@@ -12,8 +13,11 @@ import com.wen_wen.latte.app.ui.recycler.MultipleRecyclerAdapter;
 import com.wen_wen.latte.app.ui.recycler.MultipleViewHolder;
 import com.wen_wen.latte.ec.R;
 import com.wen_wen.latte.ec.launcher.main.sort.SortDelegate;
+import com.wen_wen.latte.ec.launcher.main.sort.content.ContentDelegate;
 
 import java.util.List;
+
+import me.yokeyword.fragmentation.SupportHelper;
 
 /**
  * Created by WeLot on 2018/4/23.
@@ -59,7 +63,7 @@ public class SortRecyclerAdapter extends MultipleRecyclerAdapter {
                             mPrePosition = currentPosition;
                             //内容的id
                             final int currentId = getData().get(currentPosition).getField(MulitipleFields.ID);
-
+                            showContent(currentId);
                         }
 
                     }
@@ -80,4 +84,22 @@ public class SortRecyclerAdapter extends MultipleRecyclerAdapter {
                 break;
         }
     }
+
+    //显示右侧content
+    private void showContent(int contentId) {
+        //每次点击创建新的delegate
+        final ContentDelegate delegate = ContentDelegate.newInstance(contentId);
+        switchContent(delegate);
+
+    }
+
+    private void switchContent(ContentDelegate delegate) {
+        final LatteDelegate contentDelegate = SupportHelper.findFragment(DELEGATE.getChildFragmentManager(), ContentDelegate.class);
+        if (contentDelegate != null) {
+            contentDelegate.getSupportDelegate().replaceFragment(delegate, false);
+
+        }
+
+    }
+
 }
