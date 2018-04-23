@@ -20,25 +20,30 @@ import java.util.List;
  */
 
 public class MultipleRecyclerAdapter extends BaseMultiItemQuickAdapter<
-        MulitipleItemEntity, MultipleViewHolder> implements
+        MultiipleItemEntity, MultipleViewHolder> implements
         BaseQuickAdapter.SpanSizeLookup, OnItemClickListener {
     //确保初始化一次Banner，防止重复item加载
     private boolean mIsInitBanner = false;
 
 
-    protected MultipleRecyclerAdapter(List<MulitipleItemEntity> data) {
+    protected MultipleRecyclerAdapter(List<MultiipleItemEntity> data) {
         super(data);
         init();
     }
 
     //简单工厂
-    public static MultipleRecyclerAdapter create(List<MulitipleItemEntity> data) {
+    public static MultipleRecyclerAdapter create(List<MultiipleItemEntity> data) {
         return new MultipleRecyclerAdapter(data);
     }
 
     public static MultipleRecyclerAdapter create(DataConveter conveter) {
 
         return new MultipleRecyclerAdapter(conveter.convert());
+    }
+    public void refresh(List<MultiipleItemEntity> data) {
+        getData().clear();
+        setNewData(data);
+        notifyDataSetChanged();
     }
 
     //初始化布局
@@ -61,7 +66,7 @@ public class MultipleRecyclerAdapter extends BaseMultiItemQuickAdapter<
     }
 
     @Override
-    protected void convert(MultipleViewHolder holder, MulitipleItemEntity entry) {
+    protected void convert(MultipleViewHolder holder, MultiipleItemEntity entry) {
         final String text;
         final String imageUrl;
         final ArrayList<String> bannersImages;
@@ -75,7 +80,6 @@ public class MultipleRecyclerAdapter extends BaseMultiItemQuickAdapter<
                 imageUrl = entry.getField(MulitipleFields.IMAGE_URL);
                 Picasso.with(mContext)
                         .load(imageUrl)
-                        .centerCrop()
                         .into(((ImageView) holder.getView(R.id.img_single)));
                 break;
             case ItemType.TEXT_IMAGE:
@@ -83,7 +87,6 @@ public class MultipleRecyclerAdapter extends BaseMultiItemQuickAdapter<
                 imageUrl = entry.getField(MulitipleFields.IMAGE_URL);
                 Picasso.with(mContext)
                         .load(imageUrl)
-                        .centerCrop()
                         .into(((ImageView) holder.getView(R.id.img_mulitiple)));
                 holder.setText(R.id.tv_mulitiple, text);
 

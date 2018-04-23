@@ -17,6 +17,7 @@
     </android.support.v4.widget.SwipeRefreshLayout>
 
     <android.support.v7.widget.Toolbar
+        android:layout_marginTop="20dp"
         android:id="@+id/tb_index"
         android:layout_width="match_parent"
         android:layout_height="48dp"
@@ -28,12 +29,12 @@
             android:orientation="horizontal">
 
             <ImageView
+
                 android:id="@+id/icon_index_scan"
                 android:layout_width="20dp"
                 android:layout_height="20dp"
-                android:layout_gravity="left"
+                android:layout_gravity="left|center_vertical"
                 android:layout_weight="1"
-                android:gravity="center"
                 android:paddingRight="10dp"
                 android:src="@mipmap/scan"
                 />

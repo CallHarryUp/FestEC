@@ -35,9 +35,9 @@ public class MultipleEntityBuilder {
         return this;
     }
 
-    public final MulitipleItemEntity build() {
+    public final MultiipleItemEntity build() {
 
-        return new MulitipleItemEntity(FIELDS);
+        return new MultiipleItemEntity(FIELDS);
     }
 
 

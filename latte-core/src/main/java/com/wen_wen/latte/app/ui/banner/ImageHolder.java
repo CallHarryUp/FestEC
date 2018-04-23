@@ -24,7 +24,6 @@ public class ImageHolder implements Holder<String> {
     public void UpdateUI(Context context, int position, String data) {
         Picasso.with(context)
                 .load(data)
-                .centerCrop()
                 .into(mImageView);
     }
 }

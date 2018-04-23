@@ -2,19 +2,29 @@ package com.wen_wen.latte.ec.launcher.main.index;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.AppCompatEditText;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 
 import com.wen_wen.latte.app.bottom.BottomItemDelegate;
+import com.wen_wen.latte.app.net.RestClient;
+import com.wen_wen.latte.app.net.callback.IError;
+import com.wen_wen.latte.app.net.callback.IFailure;
+import com.wen_wen.latte.app.net.callback.ISuccess;
+import com.wen_wen.latte.app.ui.recycler.BaseDecoration;
+import com.wen_wen.latte.app.ui.recycler.MultiipleItemEntity;
 import com.wen_wen.latte.app.ui.refresh.PagingBean;
 import com.wen_wen.latte.app.ui.refresh.RefreshHanlder;
 import com.wen_wen.latte.ec.R;
 import com.wen_wen.latte.ec.R2;
+
+import java.util.ArrayList;
 
 import butterknife.BindView;
 
@@ -40,17 +50,17 @@ public class IndexDelegate extends BottomItemDelegate {
     public void onBindView(@Nullable Bundle savedInstanceState, View rootView) {
         // initRefreshLayout();
         mRefreshHanlder = new RefreshHanlder(mRefreshLayout, mRecyclerView, new IndexDataConverter(), new PagingBean());
-        /*RestClient.builder()
+        RestClient.builder()
                 .url("userInfo/getJson/")
                 .success(new ISuccess() {
                     @Override
                     public void OnSuccess(String response) {
                        IndexDataConverter  converter  =  new IndexDataConverter();
                         converter.setJsonData(response);
-                        ArrayList<MulitipleItemEntity> list = converter.convert();
-                        String image = list.get(1).getField(MulitipleFields.IMAGE_URL);
+                        ArrayList<MultiipleItemEntity> list = converter.convert();
+                        //String image = list.get(1).getField(MulitipleFields.IMAGE_URL);
 
-                        Log.d("111","image:"+image);
+                        //Log.d("111","image:"+image);
                     }
                 })
                 .failure(new IFailure() {
@@ -66,12 +76,12 @@ public class IndexDelegate extends BottomItemDelegate {
                     }
                 })
                 .build()
-                .get();*/
+                .get();
 
        /* String json = FileUtil.getRawFile(R.raw.text);
         IndexDataConverter  converter  =  new IndexDataConverter();
         converter.setJsonData(json);
-        ArrayList<MulitipleItemEntity> list = converter.convert();
+        ArrayList<MultiipleItemEntity> list = converter.convert();
         String image = list.get(1).getField(MulitipleFields.IMAGE_URL);
 */
         //   Log.d("111","image:"+json);
@@ -94,6 +104,8 @@ public class IndexDelegate extends BottomItemDelegate {
     private void initRecyclerView() {
         final GridLayoutManager manager = new GridLayoutManager(getContext(), 4);
         mRecyclerView.setLayoutManager(manager);
+        mRecyclerView.addItemDecoration(BaseDecoration.create(ContextCompat.getColor(getContext(), R.color.app_background),5));
+
 
     }
 
@@ -102,8 +114,8 @@ public class IndexDelegate extends BottomItemDelegate {
     public void onLazyInitView(@Nullable Bundle savedInstanceState) {
         super.onLazyInitView(savedInstanceState);
         initRefreshLayout();
-        mRefreshHanlder.firstPage("index.php");
-        initRecyclerView();
+        //mRefreshHanlder.firstPage("index.php");
+       // initRecyclerView();
     }
 
     @Override
