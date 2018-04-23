@@ -23,6 +23,7 @@ import com.wen_wen.latte.app.ui.refresh.PagingBean;
 import com.wen_wen.latte.app.ui.refresh.RefreshHanlder;
 import com.wen_wen.latte.ec.R;
 import com.wen_wen.latte.ec.R2;
+import com.wen_wen.latte.ec.launcher.main.EcBottomDelegate;
 
 import java.util.ArrayList;
 
@@ -55,7 +56,7 @@ public class IndexDelegate extends BottomItemDelegate {
                 .success(new ISuccess() {
                     @Override
                     public void OnSuccess(String response) {
-                       IndexDataConverter  converter  =  new IndexDataConverter();
+                        IndexDataConverter converter = new IndexDataConverter();
                         converter.setJsonData(response);
                         ArrayList<MultiipleItemEntity> list = converter.convert();
                         //String image = list.get(1).getField(MulitipleFields.IMAGE_URL);
@@ -66,13 +67,13 @@ public class IndexDelegate extends BottomItemDelegate {
                 .failure(new IFailure() {
                     @Override
                     public void onFailure() {
-                        Log.d("111","失败");
+                        Log.d("111", "失败");
                     }
                 })
                 .error(new IError() {
                     @Override
                     public void onError(int code, String msg) {
-                        Log.d("111","error :"+msg);
+                        Log.d("111", "error :" + msg);
                     }
                 })
                 .build()
@@ -104,7 +105,10 @@ public class IndexDelegate extends BottomItemDelegate {
     private void initRecyclerView() {
         final GridLayoutManager manager = new GridLayoutManager(getContext(), 4);
         mRecyclerView.setLayoutManager(manager);
-        mRecyclerView.addItemDecoration(BaseDecoration.create(ContextCompat.getColor(getContext(), R.color.app_background),5));
+        mRecyclerView.addItemDecoration(BaseDecoration.create(ContextCompat.getColor(getContext(), R.color.app_background), 5));
+        //点击事件  寻找父delegate，如果不 ，那么底部bottombar不会消失
+        final EcBottomDelegate ecBottomDelegate = getParentDelegate();
+        mRecyclerView.addOnItemTouchListener(IndexItemClickListener.create(ecBottomDelegate));
 
     }
 
@@ -114,7 +118,7 @@ public class IndexDelegate extends BottomItemDelegate {
         super.onLazyInitView(savedInstanceState);
         initRefreshLayout();
         //mRefreshHanlder.firstPage("index.php");
-       // initRecyclerView();
+        // initRecyclerView();
     }
 
     @Override
