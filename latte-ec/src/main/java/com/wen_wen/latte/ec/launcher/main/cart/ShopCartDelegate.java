@@ -45,13 +45,15 @@ public class ShopCartDelegate extends BottomItemDelegate implements ISuccess {
             mIconSelectAll.setTag(1);
             mAdapter.setIsSelectedAll(true);
             //更新显示状态
-            mAdapter.notifyDataSetChanged();//改变的是entity的值
+           // mAdapter.notifyDataSetChanged();//改变的是entity的值
+            mAdapter.notifyItemRangeChanged(0,mAdapter.getItemCount());
         } else {
             mIconSelectAll.setTextColor(Color.GRAY);
             mIconSelectAll.setTag(0);
             mAdapter.setIsSelectedAll(false);
             //更新recyclerView的状态
-            mAdapter.notifyDataSetChanged();
+          //  mAdapter.notifyDataSetChanged();
+            mAdapter.notifyItemRangeChanged(0,mAdapter.getItemCount());
         }
     }
 
