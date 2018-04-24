@@ -9,7 +9,6 @@ import android.webkit.WebView;
 
 import com.wen_wen.latte.app.delegate.LatteDelegate;
 import com.wen_wen.latte.app.delegate.web.WebDelegate;
-import com.wen_wen.latte.app.delegate.web.WebDelegateImpl;
 
 /**
  * Created by WeLot on 2018/4/24.
@@ -36,14 +35,20 @@ public class Router {
             callPhone(delegate.getContext(), url);
             return true;
         }
-        //判断有没有父delegate
+
+        LatteDelegate topDelegate = delegate.getmTopDelegate();
+
+
+        /*//判断有没有父delegate
         final LatteDelegate parentDelegate = delegate.getParentDelegate();
         final WebDelegateImpl webDelegate = WebDelegateImpl.create(url);
         if (parentDelegate == null) {//父delegate 是空，由传进来的delegate执行跳转
             delegate.getSupportDelegate().start(webDelegate);
         } else {//不是空有父delegate执行跳转
             parentDelegate.getSupportDelegate().start(webDelegate);
-        }
+        }*/
+
+        topDelegate.getSupportDelegate().start(delegate);
         return true;
     }
 

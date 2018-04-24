@@ -28,7 +28,8 @@ public class DiscoverDelegate extends BottomItemDelegate {
     public void onLazyInitView(@Nullable Bundle savedInstanceState) {
         super.onLazyInitView(savedInstanceState);
         final WebDelegateImpl delegate = WebDelegateImpl.create("https://github.com/CallHarryUp/FestEC");
-
+        //获取顶级delegate
+        delegate.setTopDelegate(this.getParentDelegate());
         getSupportDelegate().loadRootFragment(R.id.web_discover_container, delegate);
     }
 }

@@ -14,12 +14,14 @@ import java.lang.ref.WeakReference;
  * Created by WeLot on 2018/4/24.
  */
 
-public abstract class WebDelegate extends LatteDelegate implements  IWebViewinitializer{
+public abstract class WebDelegate extends LatteDelegate implements IWebViewinitializer {
 
     private WebView mWebView = null;
     private final ReferenceQueue<WebView> WEB_VIEW_QUEUE = new ReferenceQueue<>();
     private String mUrl = null;
     private boolean mIsWebViewAvailable = false;
+
+    private LatteDelegate mTopDelegate;
 
     public WebDelegate() {
     }
@@ -59,6 +61,21 @@ public abstract class WebDelegate extends LatteDelegate implements  IWebViewinit
             }
         }
     }
+
+    //设置顶级delegate
+    public void setTopDelegate(LatteDelegate delegate) {
+        mTopDelegate = delegate;
+    }
+
+    public LatteDelegate getmTopDelegate() {
+        if (mTopDelegate == null) {
+            mTopDelegate = this;
+        }
+
+        return mTopDelegate;
+
+    }
+
 
     public WebView getWebView() {
         if (mWebView == null) {
