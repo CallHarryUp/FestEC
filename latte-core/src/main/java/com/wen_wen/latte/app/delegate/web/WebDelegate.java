@@ -14,7 +14,7 @@ import java.lang.ref.WeakReference;
  * Created by WeLot on 2018/4/24.
  */
 
-public abstract class WebDelegate extends LatteDelegate {
+public abstract class WebDelegate extends LatteDelegate implements  IWebViewinitializer{
 
     private WebView mWebView = null;
     private final ReferenceQueue<WebView> WEB_VIEW_QUEUE = new ReferenceQueue<>();
@@ -32,6 +32,7 @@ public abstract class WebDelegate extends LatteDelegate {
         super.onCreate(savedInstanceState);
         final Bundle args = getArguments();
         mUrl = args.getString(RouteKeys.URL.name());
+        initWebView();
 
     }
 
