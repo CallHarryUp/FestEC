@@ -14,7 +14,7 @@ import android.webkit.WebView;
 public class WebViewInitializer {
 
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
-    public WebView create(WebView webView) {
+    public WebView createWebView(WebView webView) {
         //设置可以调试
         WebView.setWebContentsDebuggingEnabled(true);
         //不能横向滚动

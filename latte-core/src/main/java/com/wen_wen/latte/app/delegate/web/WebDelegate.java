@@ -121,6 +121,7 @@ public abstract class WebDelegate extends LatteDelegate implements IWebViewiniti
         super.onDestroy();
         if (mWebView != null) {
             mWebView.removeAllViews();
+            mWebView.destroy();
             mWebView = null;
         }
     }

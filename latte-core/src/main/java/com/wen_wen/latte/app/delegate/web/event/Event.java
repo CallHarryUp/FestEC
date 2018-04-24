@@ -3,6 +3,7 @@ package com.wen_wen.latte.app.delegate.web.event;
 import android.content.Context;
 import android.webkit.WebView;
 
+import com.wen_wen.latte.app.delegate.LatteDelegate;
 import com.wen_wen.latte.app.delegate.web.WebDelegate;
 
 /**
@@ -11,28 +12,22 @@ import com.wen_wen.latte.app.delegate.web.WebDelegate;
  */
 
 public abstract class Event implements IEvent {
-
-    private Context mContext;
+    private Context mContent = null;
     private String mAction = null;
-    private WebDelegate mDelegate;
+    private WebDelegate mDelegate = null;
     private String mUrl = null;
-
-    private WebView  mWebView;
-
-    public WebView getWebView() {
-        return mWebView;
-    }
-
-    public void setWebView(WebView mWebView) {
-        this.mWebView = mWebView;
-    }
+    private WebView mWebView = null;
 
     public Context getContext() {
-        return mContext;
+        return mContent;
     }
 
-    public void setContext(Context mContext) {
-        this.mContext = mContext;
+    public WebView getWebView(){
+        return mDelegate.getWebView();
+    }
+
+    public void setContext(Context mContent) {
+        this.mContent = mContent;
     }
 
     public String getAction() {
@@ -43,7 +38,7 @@ public abstract class Event implements IEvent {
         this.mAction = mAction;
     }
 
-    public WebDelegate getDelegate() {
+    public LatteDelegate getDelegate() {
         return mDelegate;
     }
 

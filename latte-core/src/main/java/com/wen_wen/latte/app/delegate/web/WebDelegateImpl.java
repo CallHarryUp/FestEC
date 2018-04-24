@@ -7,6 +7,7 @@ import android.webkit.WebChromeClient;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
+import com.wen_wen.latte.app.delegate.IPageLoadListener;
 import com.wen_wen.latte.app.delegate.web.route.RouteKeys;
 import com.wen_wen.latte.app.delegate.web.route.Router;
 import com.wen_wen.latte.app.delegate.web.chromeClient.WebChromeClientImpl;
@@ -18,6 +19,8 @@ import com.wen_wen.latte.app.delegate.web.client.WebViewClientImpl;
  */
 
 public class WebDelegateImpl extends WebDelegate {
+    private IPageLoadListener  mIPageLoadListener;
+
 
     public static WebDelegateImpl create(String url) {
         final Bundle args = new Bundle();
@@ -27,11 +30,13 @@ public class WebDelegateImpl extends WebDelegate {
         return delegate;
     }
 
-
-
     @Override
     public Object setLayout() {
         return getWebView();
+    }
+
+    public void setIPageLoadListener(IPageLoadListener mIPageLoadListener) {
+        this.mIPageLoadListener = mIPageLoadListener;
     }
 
     @Override
@@ -48,20 +53,17 @@ public class WebDelegateImpl extends WebDelegate {
         return this;
     }
 
-
     //初始化webview 进行相关属性设置
     @Override
     public WebView initWebView(WebView webView) {
-        return new WebViewInitializer().create(webView);
+        return new WebViewInitializer().createWebView(webView);
     }
-
     @Override
     public WebViewClient initWebViewClient() {
         final WebViewClientImpl  client  =  new WebViewClientImpl(this);
-
+        client.setIPageLoadListener(mIPageLoadListener);
         return client;
     }
-
     @Override
     public WebChromeClient initWebChromeClient() {
         return new WebChromeClientImpl();

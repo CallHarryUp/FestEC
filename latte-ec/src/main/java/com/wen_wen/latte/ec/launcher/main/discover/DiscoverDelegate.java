@@ -8,6 +8,9 @@ import com.wen_wen.latte.app.bottom.BottomItemDelegate;
 import com.wen_wen.latte.app.delegate.web.WebDelegateImpl;
 import com.wen_wen.latte.ec.R;
 
+import me.yokeyword.fragmentation.anim.DefaultHorizontalAnimator;
+import me.yokeyword.fragmentation.anim.FragmentAnimator;
+
 /**
  * Created by WeLot on 2018/4/19.
  */
@@ -31,5 +34,10 @@ public class DiscoverDelegate extends BottomItemDelegate {
         //获取顶级delegate
         delegate.setTopDelegate(this.getParentDelegate());
         getSupportDelegate().loadRootFragment(R.id.web_discover_container, delegate);
+    }
+
+    @Override
+    public FragmentAnimator onCreateFragmentAnimator() {
+        return new DefaultHorizontalAnimator();
     }
 }
