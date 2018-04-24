@@ -62,6 +62,9 @@ public class ContentDelegate extends LatteDelegate {
                     @Override
                     public void OnSuccess(String response) {
                         mData = new SectionDataConverter().convert(response);
+                        final SectionAdapter sectionAdapter  =  new SectionAdapter(R.layout.item_section_content,
+                                R.layout.item_section_header,mData);
+                        mRecyclerView.setAdapter(sectionAdapter);
                     }
                 }).failure(new IFailure() {
             @Override
@@ -77,7 +80,7 @@ public class ContentDelegate extends LatteDelegate {
     public void onBindView(@Nullable Bundle savedInstanceState, View rootView) {
         StaggeredGridLayoutManager manager = new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL);
         mRecyclerView.setLayoutManager(manager);
-        initData();
+       // initData();
 
     }
 }

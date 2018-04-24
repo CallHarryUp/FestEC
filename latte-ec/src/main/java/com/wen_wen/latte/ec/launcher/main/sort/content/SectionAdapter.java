@@ -1,7 +1,10 @@
 package com.wen_wen.latte.ec.launcher.main.sort.content;
 
+import android.support.v7.widget.AppCompatImageView;
+
 import com.chad.library.adapter.base.BaseSectionQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
+import com.squareup.picasso.Picasso;
 import com.wen_wen.latte.ec.R;
 
 import java.util.List;
@@ -39,6 +42,9 @@ public class SectionAdapter extends BaseSectionQuickAdapter<SectionBean, BaseVie
         final String name = item.t.getmGoodsName();
         final int goodsId = item.t.getmGoodsId();
         final SectionContentItemEntity entity = item.t;
+        helper.setText(R.id.tv,name);
+        final AppCompatImageView  goodsImageView  =  helper.getView(R.id.iv);
+        Picasso.with(mContext).load(thumb).into(goodsImageView);
 
     }
 }
