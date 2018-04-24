@@ -12,6 +12,7 @@ import com.wen_wen.latte.ec.R;
  */
 
 public class DiscoverDelegate extends BottomItemDelegate {
+
     @Override
     public Object setLayout() {
         return R.layout.delegate_discover;
