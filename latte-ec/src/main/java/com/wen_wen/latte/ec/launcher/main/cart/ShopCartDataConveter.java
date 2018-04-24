@@ -38,6 +38,7 @@ public class ShopCartDataConveter extends DataConveter {
                     .setField(ShopCartItemFields.COUNT, count)
                     .setField(ShopCartItemFields.PRICE, price)
                     .setField(ShopCartItemFields.IS_SELECTED,false)
+                    .setField(ShopCartItemFields.POSITION, i)
                     .build();
 
             dataList.add(entity);
