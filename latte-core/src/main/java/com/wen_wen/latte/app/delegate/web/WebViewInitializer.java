@@ -8,6 +8,7 @@ import android.webkit.WebView;
 
 /**
  * Created by WeLot on 2018/4/24.
+ * webview配置
  */
 
 public class WebViewInitializer {
@@ -31,6 +32,8 @@ public class WebViewInitializer {
         });
         //初始化settings
         final WebSettings settings = webView.getSettings();
+        //可执行js
+        settings.setJavaScriptEnabled(true);
         final String ua = settings.getUserAgentString();
         settings.setUserAgentString(ua + "Latte");
         //隐藏缩放控件

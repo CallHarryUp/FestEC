@@ -3,7 +3,7 @@ package com.wen_wen.latte.app.delegate.web.client;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
-import com.wen_wen.latte.app.delegate.route.Router;
+import com.wen_wen.latte.app.delegate.web.route.Router;
 import com.wen_wen.latte.app.delegate.web.WebDelegate;
 import com.wen_wen.latte.app.util.log.LatteLogger;
 

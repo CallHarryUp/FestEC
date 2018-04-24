@@ -5,7 +5,7 @@ import android.support.annotation.Nullable;
 import android.webkit.WebView;
 
 import com.wen_wen.latte.app.delegate.LatteDelegate;
-import com.wen_wen.latte.app.delegate.route.RouteKeys;
+import com.wen_wen.latte.app.delegate.web.route.RouteKeys;
 
 import java.lang.ref.ReferenceQueue;
 import java.lang.ref.WeakReference;

@@ -1,4 +1,4 @@
-package com.wen_wen.latte.app.delegate.route;
+package com.wen_wen.latte.app.delegate.web.route;
 
 /**
  * Created by WeLot on 2018/4/24.
