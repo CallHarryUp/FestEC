@@ -27,7 +27,7 @@ public class DiscoverDelegate extends BottomItemDelegate {
     @Override
     public void onLazyInitView(@Nullable Bundle savedInstanceState) {
         super.onLazyInitView(savedInstanceState);
-        final WebDelegateImpl delegate = WebDelegateImpl.create("http://www.baidu.com");
+        final WebDelegateImpl delegate = WebDelegateImpl.create("https://github.com/CallHarryUp/FestEC");
 
         getSupportDelegate().loadRootFragment(R.id.web_discover_container, delegate);
     }
