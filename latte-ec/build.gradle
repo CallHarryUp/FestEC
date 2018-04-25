@@ -31,6 +31,7 @@ dependencies {
     testCompile 'junit:junit:4.12'
 
     compile project(':latte-core')
+    compile files('libs/alipaySdk-20180403.jar')
     annotationProcessor 'com.jakewharton:butterknife-compiler:8.6.0'
 
 }

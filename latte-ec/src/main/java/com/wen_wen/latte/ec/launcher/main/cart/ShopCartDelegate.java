@@ -18,6 +18,7 @@ import com.wen_wen.latte.app.net.callback.ISuccess;
 import com.wen_wen.latte.app.ui.recycler.MultiipleItemEntity;
 import com.wen_wen.latte.ec.R;
 import com.wen_wen.latte.ec.R2;
+import com.wen_wen.latte.ec.launcher.pay.FastPay;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -119,12 +120,13 @@ public class ShopCartDelegate extends BottomItemDelegate implements ISuccess, IC
     //结算
     @OnClick(R2.id.tv_shop_cart_pay)
     void onClickPay() {
+        FastPay.create(this).beginPayDialog();
 
     }
 
     //创建订单 ，此时与支付没有关系
     private void createOrder() {
-        final       String orderUrl   =  "";
+        final       String orderUrl   =  "http://app.api.zanzuanshi.com/api/v1/payment";
         final WeakHashMap<String,Object>  orderParams  =  new WeakHashMap<>();
         orderParams.put("userid","sss");
         orderParams.put("amount",0.01);
@@ -205,8 +207,6 @@ public class ShopCartDelegate extends BottomItemDelegate implements ISuccess, IC
         mtvTotalPrice.setText("￥" + String.valueOf(mTotalPrice));
         checkItemCount();
         mAdapter.setCartItemListener(this);
-
-
     }
 
     @Override
