@@ -84,11 +84,14 @@ public class ShopCartDelegate extends BottomItemDelegate implements ISuccess {
             } else {
                 removePosition = entityPosiiton;
             }
-            //第三方库中
-            mAdapter.remove(removePosition);
-            mCurrnetCount = mAdapter.getItemCount();
-            // 更新数据
-            mAdapter.notifyItemRangeChanged(removePosition, mAdapter.getItemCount());
+            if (removePosition<=mAdapter.getItemCount()) {
+                //第三方库中
+                mAdapter.remove(removePosition);
+                mCurrnetCount = mAdapter.getItemCount();
+                // 更新数据
+                mAdapter.notifyItemRangeChanged(removePosition, mAdapter.getItemCount());
+            }
+
         }
     }
 
