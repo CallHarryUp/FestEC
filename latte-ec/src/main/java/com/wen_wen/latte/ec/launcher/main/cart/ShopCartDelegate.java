@@ -21,6 +21,7 @@ import com.wen_wen.latte.ec.R2;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.WeakHashMap;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -37,7 +38,7 @@ public class ShopCartDelegate extends BottomItemDelegate implements ISuccess, IC
     @BindView(R2.id.stub_no_item)
     ViewStubCompat mStubNoItem;
     @BindView(R2.id.tv_shop_cart_total_price)
-    AppCompatTextView  mTotalPrice;
+    AppCompatTextView mtvTotalPrice;
 
 
     private ShopCartAdapter mAdapter;
@@ -45,6 +46,8 @@ public class ShopCartDelegate extends BottomItemDelegate implements ISuccess, IC
     private int mCurrnetCount = 0;
     //总共item的数量
     private int mTotalCount = 0;
+    //总价格
+    private double mTotalPrice = 0.00;
 
 
     //private int mIconSelectedCount = 0;
@@ -113,6 +116,38 @@ public class ShopCartDelegate extends BottomItemDelegate implements ISuccess, IC
 
     }
 
+    //结算
+    @OnClick(R2.id.tv_shop_cart_pay)
+    void onClickPay() {
+
+    }
+
+    //创建订单 ，此时与支付没有关系
+    private void createOrder() {
+        final       String orderUrl   =  "";
+        final WeakHashMap<String,Object>  orderParams  =  new WeakHashMap<>();
+        orderParams.put("userid","sss");
+        orderParams.put("amount",0.01);
+        orderParams.put("comment","测试支付");
+        orderParams.put("type",1);
+        orderParams.put("ordertype",0);
+        orderParams.put("isanonymous",true);
+        orderParams.put("followeduser",0);
+        RestClient.builder()
+                .url(orderUrl)
+                .loader(getContext())
+                .params(orderParams)
+                .success(new ISuccess() {
+                    @Override
+                    public void OnSuccess(String response) {
+                       //如果成功 进行支付
+                    }
+                })
+                .build()
+                .post();
+    }
+
+
     @Override
     public Object setLayout() {
         return R.layout.delegate_cart;
@@ -166,7 +201,8 @@ public class ShopCartDelegate extends BottomItemDelegate implements ISuccess, IC
         mRecyclerView.setLayoutManager(manager);
         mAdapter = new ShopCartAdapter(data);
         mRecyclerView.setAdapter(mAdapter);
-
+        mTotalPrice = mAdapter.getmTotalPrice();
+        mtvTotalPrice.setText("￥" + String.valueOf(mTotalPrice));
         checkItemCount();
         mAdapter.setCartItemListener(this);
 
@@ -176,6 +212,6 @@ public class ShopCartDelegate extends BottomItemDelegate implements ISuccess, IC
     @Override
     public void onItemClick(double itemTotalPrice) {
         final double price = mAdapter.getmTotalPrice();
-        mTotalPrice.setText("￥"+String.valueOf(price));
+        mtvTotalPrice.setText("￥" + String.valueOf(price));
     }
 }
