@@ -29,16 +29,18 @@ import butterknife.OnClick;
  * Created by WeLot on 2018/4/19.
  */
 
-public class ShopCartDelegate extends BottomItemDelegate implements ISuccess {
+public class ShopCartDelegate extends BottomItemDelegate implements ISuccess, ICartItemListener {
     @BindView(R2.id.rv_shop_cart)
     RecyclerView mRecyclerView;
-
-    private ShopCartAdapter mAdapter;
     @BindView(R2.id.icon_cart_select_all)
     IconTextView mIconSelectAll = null;
-
     @BindView(R2.id.stub_no_item)
     ViewStubCompat mStubNoItem;
+    @BindView(R2.id.tv_shop_cart_total_price)
+    AppCompatTextView  mTotalPrice;
+
+
+    private ShopCartAdapter mAdapter;
     //当前选中的item的数量(购物车数量标记)
     private int mCurrnetCount = 0;
     //总共item的数量
@@ -166,7 +168,14 @@ public class ShopCartDelegate extends BottomItemDelegate implements ISuccess {
         mRecyclerView.setAdapter(mAdapter);
 
         checkItemCount();
+        mAdapter.setCartItemListener(this);
 
 
+    }
+
+    @Override
+    public void onItemClick(double itemTotalPrice) {
+        final double price = mAdapter.getmTotalPrice();
+        mTotalPrice.setText("￥"+String.valueOf(price));
     }
 }

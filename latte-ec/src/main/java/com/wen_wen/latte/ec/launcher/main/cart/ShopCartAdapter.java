@@ -26,8 +26,21 @@ import java.util.List;
 public class ShopCartAdapter extends MultipleRecyclerAdapter {
     private boolean mIsSelectedAll = false;
 
+    private ICartItemListener mCartItemListener;
+
+    private double mTotalPrice = 0.00;
+
+
     protected ShopCartAdapter(List<MultiipleItemEntity> data) {
         super(data);
+        //初始化总价
+        for (MultiipleItemEntity entity : data) {
+            final double price = entity.getField(ShopCartItemFields.PRICE);
+            final int count = entity.getField(ShopCartItemFields.COUNT);
+            final double total = price * count;
+            mTotalPrice += total;
+
+        }
         //添加购物车item布局
         addItemType(ShopCartItemType.SHOP_CART_ITEM, R.layout.item_shop_cart);
 
@@ -37,6 +50,14 @@ public class ShopCartAdapter extends MultipleRecyclerAdapter {
         this.mIsSelectedAll = isSelectedAll;
     }
 
+    public void setCartItemListener(ICartItemListener mCartItemListener) {
+        this.mCartItemListener = mCartItemListener;
+    }
+
+    public double getmTotalPrice() {
+
+        return mTotalPrice;
+    }
 
     @Override
     protected void convert(MultipleViewHolder holder, final MultiipleItemEntity entity) {
@@ -100,6 +121,7 @@ public class ShopCartAdapter extends MultipleRecyclerAdapter {
                     @Override
                     public void onClick(View v) {
                         final int currentCount = entity.getField(ShopCartItemFields.COUNT);
+                        final int currentPrice = entity.getField(ShopCartItemFields.PRICE);
                         if (Integer.parseInt(tvCount.getText().toString()) > 1) {
                             //请求服务器减1
                             RestClient.builder()
@@ -112,6 +134,12 @@ public class ShopCartAdapter extends MultipleRecyclerAdapter {
                                             int countNum = Integer.parseInt(tvCount.getText().toString());
                                             countNum--;
                                             tvCount.setText(String.valueOf(countNum));
+                                            if (mCartItemListener != null) {
+                                                mTotalPrice = mTotalPrice - currentPrice;
+                                                final double itemTotal = countNum * currentPrice;
+                                                mCartItemListener.onItemClick(itemTotal);
+                                            }
+
                                         }
                                     })
                                     .build()
@@ -124,6 +152,7 @@ public class ShopCartAdapter extends MultipleRecyclerAdapter {
                     @Override
                     public void onClick(View v) {
                         final int currentCount = entity.getField(ShopCartItemFields.COUNT);
+                        final int currentPrice = entity.getField(ShopCartItemFields.PRICE);
                         RestClient.builder()
                                 .url("")
                                 .params("count", String.valueOf(currentCount))
@@ -133,6 +162,11 @@ public class ShopCartAdapter extends MultipleRecyclerAdapter {
                                         int countNum = Integer.parseInt(tvCount.getText().toString());
                                         countNum++;
                                         tvCount.setText(String.valueOf(countNum));
+                                        if (mCartItemListener != null) {
+                                            mTotalPrice = mTotalPrice + currentPrice;
+                                            final double itemTotal = countNum * currentPrice;
+                                            mCartItemListener.onItemClick(itemTotal);
+                                        }
                                     }
                                 })
                                 .build()
