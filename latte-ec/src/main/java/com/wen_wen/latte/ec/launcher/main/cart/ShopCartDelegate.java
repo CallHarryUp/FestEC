@@ -11,6 +11,7 @@ import android.support.v7.widget.ViewStubCompat;
 import android.view.View;
 import android.widget.Toast;
 
+import com.alibaba.fastjson.JSON;
 import com.joanzapata.iconify.widget.IconTextView;
 import com.wen_wen.latte.app.bottom.BottomItemDelegate;
 import com.wen_wen.latte.app.net.RestClient;
@@ -19,6 +20,7 @@ import com.wen_wen.latte.app.ui.recycler.MultiipleItemEntity;
 import com.wen_wen.latte.ec.R;
 import com.wen_wen.latte.ec.R2;
 import com.wen_wen.latte.ec.launcher.pay.FastPay;
+import com.wen_wen.latte.ec.launcher.pay.IAlPayResultListener;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -31,7 +33,7 @@ import butterknife.OnClick;
  * Created by WeLot on 2018/4/19.
  */
 
-public class ShopCartDelegate extends BottomItemDelegate implements ISuccess, ICartItemListener {
+public class ShopCartDelegate extends BottomItemDelegate implements ISuccess, ICartItemListener, IAlPayResultListener {
     @BindView(R2.id.rv_shop_cart)
     RecyclerView mRecyclerView;
     @BindView(R2.id.icon_cart_select_all)
@@ -120,21 +122,21 @@ public class ShopCartDelegate extends BottomItemDelegate implements ISuccess, IC
     //结算
     @OnClick(R2.id.tv_shop_cart_pay)
     void onClickPay() {
-        FastPay.create(this).beginPayDialog();
-
+        //  FastPay.create(this).beginPayDialog();
+        createOrder();
     }
 
     //创建订单 ，此时与支付没有关系
     private void createOrder() {
-        final       String orderUrl   =  "http://app.api.zanzuanshi.com/api/v1/payment";
-        final WeakHashMap<String,Object>  orderParams  =  new WeakHashMap<>();
-        orderParams.put("userid","sss");
-        orderParams.put("amount",0.01);
-        orderParams.put("comment","测试支付");
-        orderParams.put("type",1);
-        orderParams.put("ordertype",0);
-        orderParams.put("isanonymous",true);
-        orderParams.put("followeduser",0);
+        final String orderUrl = "http://app.api.zanzuanshi.com/api/v1/payment";
+        final WeakHashMap<String, Object> orderParams = new WeakHashMap<>();
+        orderParams.put("userid", "sss");
+        orderParams.put("amount", 0.01);
+        orderParams.put("comment", "测试支付");
+        orderParams.put("type", 1);
+        orderParams.put("ordertype", 0);
+        orderParams.put("isanonymous", true);
+        orderParams.put("followeduser", 0);
         RestClient.builder()
                 .url(orderUrl)
                 .loader(getContext())
@@ -142,7 +144,12 @@ public class ShopCartDelegate extends BottomItemDelegate implements ISuccess, IC
                 .success(new ISuccess() {
                     @Override
                     public void OnSuccess(String response) {
-                       //如果成功 进行支付
+                        final int orderId = JSON.parseObject(response).getInteger("result");
+                        //如果成功 进行支付
+                        FastPay.create(ShopCartDelegate.this)
+                                .setPayResultListener(ShopCartDelegate.this)
+                                .setOrderId(orderId)
+                                .beginPayDialog();
                     }
                 })
                 .build()
@@ -213,5 +220,30 @@ public class ShopCartDelegate extends BottomItemDelegate implements ISuccess, IC
     public void onItemClick(double itemTotalPrice) {
         final double price = mAdapter.getmTotalPrice();
         mtvTotalPrice.setText("￥" + String.valueOf(price));
+    }
+
+    @Override
+    public void onPaySuccess() {
+
+    }
+
+    @Override
+    public void onPaying() {
+
+    }
+
+    @Override
+    public void onPayFail() {
+
+    }
+
+    @Override
+    public void onPayCancel() {
+
+    }
+
+    @Override
+    public void onPayConnectError() {
+
     }
 }
