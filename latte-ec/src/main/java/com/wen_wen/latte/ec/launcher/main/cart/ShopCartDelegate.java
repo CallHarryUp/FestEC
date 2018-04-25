@@ -4,9 +4,12 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.content.ContextCompat;
+import android.support.v7.widget.AppCompatTextView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.ViewStubCompat;
 import android.view.View;
+import android.widget.Toast;
 
 import com.joanzapata.iconify.widget.IconTextView;
 import com.wen_wen.latte.app.bottom.BottomItemDelegate;
@@ -33,6 +36,9 @@ public class ShopCartDelegate extends BottomItemDelegate implements ISuccess {
     private ShopCartAdapter mAdapter;
     @BindView(R2.id.icon_cart_select_all)
     IconTextView mIconSelectAll = null;
+
+    @BindView(R2.id.stub_no_item)
+    ViewStubCompat mStubNoItem;
     //当前选中的item的数量(购物车数量标记)
     private int mCurrnetCount = 0;
     //总共item的数量
@@ -84,7 +90,7 @@ public class ShopCartDelegate extends BottomItemDelegate implements ISuccess {
             } else {
                 removePosition = entityPosiiton;
             }
-            if (removePosition<=mAdapter.getItemCount()) {
+            if (removePosition <= mAdapter.getItemCount()) {
                 //第三方库中
                 mAdapter.remove(removePosition);
                 mCurrnetCount = mAdapter.getItemCount();
@@ -93,20 +99,40 @@ public class ShopCartDelegate extends BottomItemDelegate implements ISuccess {
             }
 
         }
+        checkItemCount();
     }
 
     //清空
     @OnClick(R2.id.tv_top_shop_cart_clear)
     void onClickClear() {
         mAdapter.getData().clear();
-
         mAdapter.notifyDataSetChanged();
+        checkItemCount();
 
     }
 
     @Override
     public Object setLayout() {
         return R.layout.delegate_cart;
+    }
+
+    //检查购物车商品数量
+    private void checkItemCount() {
+        final int count = mAdapter.getItemCount();
+        if (count == 0) {
+            final View stubView = mStubNoItem.inflate();
+            final AppCompatTextView tvToBuy = ((AppCompatTextView) stubView.findViewById(R.id.tv_stub_to_buy));
+            tvToBuy.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Toast.makeText(getContext(), "去购物吧", Toast.LENGTH_SHORT).show();
+                }
+            });
+            mRecyclerView.setVisibility(View.GONE);
+
+        } else {
+            mRecyclerView.setVisibility(View.VISIBLE);
+        }
     }
 
 
@@ -138,6 +164,8 @@ public class ShopCartDelegate extends BottomItemDelegate implements ISuccess {
         mRecyclerView.setLayoutManager(manager);
         mAdapter = new ShopCartAdapter(data);
         mRecyclerView.setAdapter(mAdapter);
+
+        checkItemCount();
 
 
     }

@@ -9,6 +9,8 @@ import android.view.View;
 import com.joanzapata.iconify.widget.IconTextView;
 import com.squareup.picasso.Picasso;
 import com.wen_wen.latte.app.app.Latte;
+import com.wen_wen.latte.app.net.RestClient;
+import com.wen_wen.latte.app.net.callback.ISuccess;
 import com.wen_wen.latte.app.ui.recycler.MulitipleFields;
 import com.wen_wen.latte.app.ui.recycler.MultiipleItemEntity;
 import com.wen_wen.latte.app.ui.recycler.MultipleRecyclerAdapter;
@@ -37,17 +39,17 @@ public class ShopCartAdapter extends MultipleRecyclerAdapter {
 
 
     @Override
-    protected void convert(MultipleViewHolder holder, final MultiipleItemEntity entry) {
-        super.convert(holder, entry);
+    protected void convert(MultipleViewHolder holder, final MultiipleItemEntity entity) {
+        super.convert(holder, entity);
         switch (holder.getItemViewType()) {
             case ShopCartItemType.SHOP_CART_ITEM:
                 //取值
-                final int id = entry.getField(MulitipleFields.ID);
-                final String thumb = entry.getField(MulitipleFields.IMAGE_URL);
-                final String title = entry.getField(ShopCartItemFields.TITLE);
-                final String desc = entry.getField(ShopCartItemFields.DESC);
-                final int count = entry.getField(ShopCartItemFields.COUNT);
-                final double price = entry.getField(ShopCartItemFields.PRICE);
+                final int id = entity.getField(MulitipleFields.ID);
+                final String thumb = entity.getField(MulitipleFields.IMAGE_URL);
+                final String title = entity.getField(ShopCartItemFields.TITLE);
+                final String desc = entity.getField(ShopCartItemFields.DESC);
+                final int count = entity.getField(ShopCartItemFields.COUNT);
+                final double price = entity.getField(ShopCartItemFields.PRICE);
                 //final boolean isSelected = entry.getField(ShopCartItemFields.IS_SELECTED);
                 //取出控件
                 final AppCompatImageView imgThumb = holder.getView(R.id.image_item_shop_cart);
@@ -68,8 +70,8 @@ public class ShopCartAdapter extends MultipleRecyclerAdapter {
                         .load(thumb)
                         .into(imgThumb);
                 // 在左侧按钮渲染之前改变状态
-                entry.setField(ShopCartItemFields.IS_SELECTED,mIsSelectedAll);
-                final boolean isSelected = entry.getField(ShopCartItemFields.IS_SELECTED);
+                entity.setField(ShopCartItemFields.IS_SELECTED, mIsSelectedAll);
+                final boolean isSelected = entity.getField(ShopCartItemFields.IS_SELECTED);
 
                 //根据数据状态 显示左侧按钮
                 if (isSelected) {
@@ -81,18 +83,62 @@ public class ShopCartAdapter extends MultipleRecyclerAdapter {
                 iconIsSelected.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        final boolean currentSelected = entry.getField(ShopCartItemFields.IS_SELECTED);
+                        final boolean currentSelected = entity.getField(ShopCartItemFields.IS_SELECTED);
                         if (currentSelected) {
                             iconIsSelected.setTextColor(Color.GRAY);
-                            entry.setField(ShopCartItemFields.IS_SELECTED, false);
+                            entity.setField(ShopCartItemFields.IS_SELECTED, false);
                         } else {
                             iconIsSelected.setTextColor(ContextCompat.getColor(Latte.getApplicationContext(), R.color.app_main));
-                            entry.setField(ShopCartItemFields.IS_SELECTED, true);
+                            entity.setField(ShopCartItemFields.IS_SELECTED, true);
 
                         }
                     }
                 });
 
+                //添加加减事件   服务器塔里可能较大 单式可能最大限度的保持数据同步
+                iconMinus.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        final int currentCount = entity.getField(ShopCartItemFields.COUNT);
+                        if (Integer.parseInt(tvCount.getText().toString()) > 1) {
+                            //请求服务器减1
+                            RestClient.builder()
+                                    .url(" ")
+                                    .loader(mContext)
+                                    .params("count", String.valueOf(currentCount))//形式有服务器指定具体的外呼数据类型
+                                    .success(new ISuccess() {
+                                        @Override
+                                        public void OnSuccess(String response) {
+                                            int countNum = Integer.parseInt(tvCount.getText().toString());
+                                            countNum--;
+                                            tvCount.setText(String.valueOf(countNum));
+                                        }
+                                    })
+                                    .build()
+                                    .post();
+
+                        }
+                    }
+                });
+                iconPlus.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        final int currentCount = entity.getField(ShopCartItemFields.COUNT);
+                        RestClient.builder()
+                                .url("")
+                                .params("count", String.valueOf(currentCount))
+                                .success(new ISuccess() {
+                                    @Override
+                                    public void OnSuccess(String response) {
+                                        int countNum = Integer.parseInt(tvCount.getText().toString());
+                                        countNum++;
+                                        tvCount.setText(String.valueOf(countNum));
+                                    }
+                                })
+                                .build()
+                                .post();
+                    }
+                });
 
                 break;
             default:
