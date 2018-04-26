@@ -33,5 +33,7 @@ dependencies {
     compile project(':latte-core')
     compile files('libs/alipaySdk-20180403.jar')
     annotationProcessor 'com.jakewharton:butterknife-compiler:8.6.0'
+    //圆形图片
+    compile 'de.hdodenhof:circleimageview:2.1.0'
 
 }
