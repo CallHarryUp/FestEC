@@ -13,6 +13,7 @@ import com.wen_wen.latte.ec.launcher.main.personal.list.ListAdapter;
 import com.wen_wen.latte.ec.launcher.main.personal.list.ListBean;
 import com.wen_wen.latte.ec.launcher.main.personal.list.ListItemType;
 import com.wen_wen.latte.ec.launcher.main.personal.order.OrderListDelegate;
+import com.wen_wen.latte.ec.launcher.main.personal.profile.UserProfileDelegate;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -22,6 +23,7 @@ import butterknife.OnClick;
 
 /**
  * Created by WeLot on 2018/4/19.
+ * 待收款 待付款 待评价  售后 逻辑没有实现
  */
 
 public class PersonalDelegate extends BottomItemDelegate {
@@ -48,6 +50,12 @@ public class PersonalDelegate extends BottomItemDelegate {
     void onClickAllOrder() {
         mArgs.putString(ORDER_TYPE, "all");
         startOrderListByType();
+    }
+
+    @OnClick(R2.id.img_user_avatar)
+    void onClickAvatar() {
+        getParentDelegate().getSupportDelegate().start(new UserProfileDelegate());
+
     }
 
     @Override
@@ -77,6 +85,7 @@ public class PersonalDelegate extends BottomItemDelegate {
         final List<ListBean> data = new ArrayList<>();
         data.add(address);
         data.add(system);
+
         //设置recycler
         final LinearLayoutManager manager = new LinearLayoutManager(getContext());
         mRvSettings.setLayoutManager(manager);
