@@ -5,7 +5,7 @@ import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.wen_wen.latte.app.ui.recycler.DataConveter;
 import com.wen_wen.latte.app.ui.recycler.MulitipleFields;
-import com.wen_wen.latte.app.ui.recycler.MultiipleItemEntity;
+import com.wen_wen.latte.app.ui.recycler.MulitipleItemEntity;
 
 import java.util.ArrayList;
 
@@ -15,9 +15,9 @@ import java.util.ArrayList;
 
 public class ShopCartDataConveter extends DataConveter {
     @Override
-    public ArrayList<MultiipleItemEntity> convert() {
+    public ArrayList<MulitipleItemEntity> convert() {
 
-        final ArrayList<MultiipleItemEntity> dataList = new ArrayList<>();
+        final ArrayList<MulitipleItemEntity> dataList = new ArrayList<>();
         final JSONArray dataArray = JSON.parseObject(getJosnData()).getJSONArray("data");
         int size = dataArray.size();
         for (int i = 0; i < size; i++) {
@@ -29,7 +29,7 @@ public class ShopCartDataConveter extends DataConveter {
             final int count = data.getInteger("count");
             final double price = data.getDouble("price");
 
-            final MultiipleItemEntity entity = MultiipleItemEntity.builder()
+            final MulitipleItemEntity entity = MulitipleItemEntity.builder()
                     .setField(MulitipleFields.ITEM_TYPE, ShopCartItemType.SHOP_CART_ITEM)
                     .setField(MulitipleFields.ID, id)
                     .setField(MulitipleFields.IMAGE_URL, thumb)

@@ -20,19 +20,19 @@ import java.util.List;
  */
 
 public class MultipleRecyclerAdapter extends BaseMultiItemQuickAdapter<
-        MultiipleItemEntity, MultipleViewHolder> implements
+        MulitipleItemEntity, MultipleViewHolder> implements
         BaseQuickAdapter.SpanSizeLookup, OnItemClickListener {
     //确保初始化一次Banner，防止重复item加载
     private boolean mIsInitBanner = false;
 
 
-    protected MultipleRecyclerAdapter(List<MultiipleItemEntity> data) {
+    protected MultipleRecyclerAdapter(List<MulitipleItemEntity> data) {
         super(data);
         init();
     }
 
     //简单工厂
-    public static MultipleRecyclerAdapter create(List<MultiipleItemEntity> data) {
+    public static MultipleRecyclerAdapter create(List<MulitipleItemEntity> data) {
         return new MultipleRecyclerAdapter(data);
     }
 
@@ -40,7 +40,7 @@ public class MultipleRecyclerAdapter extends BaseMultiItemQuickAdapter<
 
         return new MultipleRecyclerAdapter(conveter.convert());
     }
-    public void refresh(List<MultiipleItemEntity> data) {
+    public void refresh(List<MulitipleItemEntity> data) {
         getData().clear();
         setNewData(data);
         notifyDataSetChanged();
@@ -66,7 +66,7 @@ public class MultipleRecyclerAdapter extends BaseMultiItemQuickAdapter<
     }
 
     @Override
-    protected void convert(MultipleViewHolder holder, MultiipleItemEntity entry) {
+    protected void convert(MultipleViewHolder holder, MulitipleItemEntity entry) {
         final String text;
         final String imageUrl;
         final ArrayList<String> bannersImages;

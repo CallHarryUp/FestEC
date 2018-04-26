@@ -12,7 +12,7 @@ import com.wen_wen.latte.app.app.Latte;
 import com.wen_wen.latte.app.net.RestClient;
 import com.wen_wen.latte.app.net.callback.ISuccess;
 import com.wen_wen.latte.app.ui.recycler.MulitipleFields;
-import com.wen_wen.latte.app.ui.recycler.MultiipleItemEntity;
+import com.wen_wen.latte.app.ui.recycler.MulitipleItemEntity;
 import com.wen_wen.latte.app.ui.recycler.MultipleRecyclerAdapter;
 import com.wen_wen.latte.app.ui.recycler.MultipleViewHolder;
 import com.wen_wen.latte.ec.R;
@@ -31,10 +31,10 @@ public class ShopCartAdapter extends MultipleRecyclerAdapter {
     private double mTotalPrice = 0.00;
 
 
-    protected ShopCartAdapter(List<MultiipleItemEntity> data) {
+    protected ShopCartAdapter(List<MulitipleItemEntity> data) {
         super(data);
         //初始化总价
-        for (MultiipleItemEntity entity : data) {
+        for (MulitipleItemEntity entity : data) {
             final double price = entity.getField(ShopCartItemFields.PRICE);
             final int count = entity.getField(ShopCartItemFields.COUNT);
             final double total = price * count;
@@ -60,7 +60,7 @@ public class ShopCartAdapter extends MultipleRecyclerAdapter {
     }
 
     @Override
-    protected void convert(MultipleViewHolder holder, final MultiipleItemEntity entity) {
+    protected void convert(MultipleViewHolder holder, final MulitipleItemEntity entity) {
         super.convert(holder, entity);
         switch (holder.getItemViewType()) {
             case ShopCartItemType.SHOP_CART_ITEM:

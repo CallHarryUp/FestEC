@@ -18,7 +18,7 @@ import com.wen_wen.latte.app.net.callback.IError;
 import com.wen_wen.latte.app.net.callback.IFailure;
 import com.wen_wen.latte.app.net.callback.ISuccess;
 import com.wen_wen.latte.app.ui.recycler.BaseDecoration;
-import com.wen_wen.latte.app.ui.recycler.MultiipleItemEntity;
+import com.wen_wen.latte.app.ui.recycler.MulitipleItemEntity;
 import com.wen_wen.latte.app.ui.refresh.PagingBean;
 import com.wen_wen.latte.app.ui.refresh.RefreshHanlder;
 import com.wen_wen.latte.ec.R;
@@ -58,7 +58,7 @@ public class IndexDelegate extends BottomItemDelegate {
                     public void OnSuccess(String response) {
                         IndexDataConverter converter = new IndexDataConverter();
                         converter.setJsonData(response);
-                        ArrayList<MultiipleItemEntity> list = converter.convert();
+                        ArrayList<MulitipleItemEntity> list = converter.convert();
                         //String image = list.get(1).getField(MulitipleFields.IMAGE_URL);
 
                         //Log.d("111","image:"+image);
@@ -82,7 +82,7 @@ public class IndexDelegate extends BottomItemDelegate {
        /* String json = FileUtil.getRawFile(R.raw.text);
         IndexDataConverter  converter  =  new IndexDataConverter();
         converter.setJsonData(json);
-        ArrayList<MultiipleItemEntity> list = converter.convert();
+        ArrayList<MulitipleItemEntity> list = converter.convert();
         String image = list.get(1).getField(MulitipleFields.IMAGE_URL);
 */
         //   Log.d("111","image:"+json);

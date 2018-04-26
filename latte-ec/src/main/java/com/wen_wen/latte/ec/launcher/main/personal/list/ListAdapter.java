@@ -8,6 +8,7 @@ import java.util.List;
 
 /**
  * Created by WeLot on 2018/4/26.
+ *
  */
 
 public class ListAdapter extends BaseMultiItemQuickAdapter<ListBean, BaseViewHolder> {

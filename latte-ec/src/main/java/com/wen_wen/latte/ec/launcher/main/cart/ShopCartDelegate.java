@@ -16,7 +16,7 @@ import com.joanzapata.iconify.widget.IconTextView;
 import com.wen_wen.latte.app.bottom.BottomItemDelegate;
 import com.wen_wen.latte.app.net.RestClient;
 import com.wen_wen.latte.app.net.callback.ISuccess;
-import com.wen_wen.latte.app.ui.recycler.MultiipleItemEntity;
+import com.wen_wen.latte.app.ui.recycler.MulitipleItemEntity;
 import com.wen_wen.latte.ec.R;
 import com.wen_wen.latte.ec.R2;
 import com.wen_wen.latte.ec.launcher.pay.FastPay;
@@ -80,17 +80,17 @@ public class ShopCartDelegate extends BottomItemDelegate implements ISuccess, IC
     @OnClick(R2.id.tv_top_shop_cart_remove_selected)
     void onClickRemoveSelectedItem() {
         //取出所有数据
-        final List<MultiipleItemEntity> data = mAdapter.getData();
+        final List<MulitipleItemEntity> data = mAdapter.getData();
         //删除的数据
-        List<MultiipleItemEntity> deleteEntities = new ArrayList<>();
-        for (MultiipleItemEntity entity : data) {
+        List<MulitipleItemEntity> deleteEntities = new ArrayList<>();
+        for (MulitipleItemEntity entity : data) {
             final boolean isSelected = entity.getField(ShopCartItemFields.IS_SELECTED);
             if (isSelected) {//将删除的数据加入到集合中
                 deleteEntities.add(entity);
             }
 
         }
-        for (MultiipleItemEntity entity : deleteEntities) {
+        for (MulitipleItemEntity entity : deleteEntities) {
             int removePosition;
             final int entityPosiiton = entity.getField(ShopCartItemFields.POSITION);
             if (entityPosiiton > mCurrnetCount - 1) {
@@ -203,7 +203,7 @@ public class ShopCartDelegate extends BottomItemDelegate implements ISuccess, IC
 
     @Override
     public void OnSuccess(String response) {
-        final List<MultiipleItemEntity> data = new ShopCartDataConveter()
+        final List<MulitipleItemEntity> data = new ShopCartDataConveter()
                 .setJsonData(response)
                 .convert();
         final LinearLayoutManager manager = new LinearLayoutManager(getContext());

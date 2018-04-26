@@ -11,10 +11,10 @@ import java.util.ArrayList;
 
 public abstract class DataConveter {
 
-    protected final ArrayList<MultiipleItemEntity> ENTITIES = new ArrayList<>();
+    protected final ArrayList<MulitipleItemEntity> ENTITIES = new ArrayList<>();
     private String mJsondata = null;
 
-    public abstract ArrayList<MultiipleItemEntity> convert();
+    public abstract ArrayList<MulitipleItemEntity> convert();
 
     public DataConveter setJsonData(String json) {
 

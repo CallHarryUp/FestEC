@@ -6,7 +6,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.wen_wen.latte.app.ui.recycler.DataConveter;
 import com.wen_wen.latte.app.ui.recycler.ItemType;
 import com.wen_wen.latte.app.ui.recycler.MulitipleFields;
-import com.wen_wen.latte.app.ui.recycler.MultiipleItemEntity;
+import com.wen_wen.latte.app.ui.recycler.MulitipleItemEntity;
 
 import java.util.ArrayList;
 
@@ -18,9 +18,9 @@ public final class VerticalListDataConverter extends DataConveter {
 
 
     @Override
-    public ArrayList<MultiipleItemEntity> convert() {
+    public ArrayList<MulitipleItemEntity> convert() {
         //解析数据
-        final ArrayList<MultiipleItemEntity> dataList = new ArrayList<>();
+        final ArrayList<MulitipleItemEntity> dataList = new ArrayList<>();
         final JSONArray dataArray = JSON.parseObject(getJosnData())
                 .getJSONObject("data")
                 .getJSONArray("list");
@@ -30,7 +30,7 @@ public final class VerticalListDataConverter extends DataConveter {
             final JSONObject data = dataArray.getJSONObject(1);
             final int id = data.getInteger("id");
             final String  name =data.getString("name");
-            final  MultiipleItemEntity  entity   =  MultiipleItemEntity.builder()
+            final MulitipleItemEntity entity   =  MulitipleItemEntity.builder()
                     .setField(MulitipleFields.ITEM_TYPE, ItemType.VERTICAL_MENU_LIST)
                     .setField(MulitipleFields.ID,id)
                     .setField(MulitipleFields.TEXT,name)

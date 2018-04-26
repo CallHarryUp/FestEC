@@ -8,7 +8,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.wen_wen.latte.app.ui.recycler.DataConveter;
 import com.wen_wen.latte.app.ui.recycler.ItemType;
 import com.wen_wen.latte.app.ui.recycler.MulitipleFields;
-import com.wen_wen.latte.app.ui.recycler.MultiipleItemEntity;
+import com.wen_wen.latte.app.ui.recycler.MulitipleItemEntity;
 
 import java.util.ArrayList;
 
@@ -18,7 +18,7 @@ import java.util.ArrayList;
 
 public class IndexDataConverter extends DataConveter {
     @Override
-    public ArrayList<MultiipleItemEntity> convert() {
+    public ArrayList<MulitipleItemEntity> convert() {
         final JSONArray dataArray = JSON.parseObject(getJosnData()).getJSONArray("data");
         final int size = dataArray.size();
         for (int i = 0; i < size; i++) {
@@ -49,7 +49,7 @@ public class IndexDataConverter extends DataConveter {
                 }
             }
 
-            final MultiipleItemEntity entity = MultiipleItemEntity.builder()
+            final MulitipleItemEntity entity = MulitipleItemEntity.builder()
                     .setField(MulitipleFields.ITEM_TYPE,type)
                     .setField(MulitipleFields.SPAN_SIZE,spanSize)
                     .setField(MulitipleFields.ID,id)

@@ -12,7 +12,7 @@ import com.wen_wen.latte.app.net.RestClient;
 import com.wen_wen.latte.app.net.callback.IFailure;
 import com.wen_wen.latte.app.net.callback.ISuccess;
 import com.wen_wen.latte.app.ui.recycler.MulitipleFields;
-import com.wen_wen.latte.app.ui.recycler.MultiipleItemEntity;
+import com.wen_wen.latte.app.ui.recycler.MulitipleItemEntity;
 import com.wen_wen.latte.ec.R;
 import com.wen_wen.latte.ec.R2;
 import com.wen_wen.latte.ec.launcher.main.sort.SortDelegate;
@@ -58,7 +58,7 @@ public class VertialListDelegate extends LatteDelegate {
                 .success(new ISuccess() {
                     @Override
                     public void OnSuccess(String response) {
-                        final List<MultiipleItemEntity> data = new VerticalListDataConverter()
+                        final List<MulitipleItemEntity> data = new VerticalListDataConverter()
                                 .setJsonData(response).convert();
                         Log.d("111","data size :"+data.get(1).getField(MulitipleFields.TITLE));
                         final SortDelegate delegate = getParentDelegate();

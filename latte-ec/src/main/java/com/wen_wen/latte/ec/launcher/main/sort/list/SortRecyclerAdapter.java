@@ -8,7 +8,7 @@ import android.view.View;
 import com.wen_wen.latte.app.delegate.LatteDelegate;
 import com.wen_wen.latte.app.ui.recycler.ItemType;
 import com.wen_wen.latte.app.ui.recycler.MulitipleFields;
-import com.wen_wen.latte.app.ui.recycler.MultiipleItemEntity;
+import com.wen_wen.latte.app.ui.recycler.MulitipleItemEntity;
 import com.wen_wen.latte.app.ui.recycler.MultipleRecyclerAdapter;
 import com.wen_wen.latte.app.ui.recycler.MultipleViewHolder;
 import com.wen_wen.latte.ec.R;
@@ -29,7 +29,7 @@ public class SortRecyclerAdapter extends MultipleRecyclerAdapter {
     //上一个位置
     private int mPrePosition = 0;
 
-    protected SortRecyclerAdapter(List<MultiipleItemEntity> data, SortDelegate delegate) {
+    protected SortRecyclerAdapter(List<MulitipleItemEntity> data, SortDelegate delegate) {
         super(data);
         this.DELEGATE = delegate;
         //添加垂直菜单布局
@@ -39,7 +39,7 @@ public class SortRecyclerAdapter extends MultipleRecyclerAdapter {
     }
 
     @Override
-    protected void convert(final MultipleViewHolder holder, final MultiipleItemEntity entry) {
+    protected void convert(final MultipleViewHolder holder, final MulitipleItemEntity entry) {
         super.convert(holder, entry);
         switch (holder.getItemViewType()) {
             case ItemType.VERTICAL_MENU_LIST:
