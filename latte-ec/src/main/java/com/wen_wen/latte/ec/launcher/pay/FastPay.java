@@ -11,9 +11,16 @@ import android.view.Window;
 import android.view.WindowManager;
 
 import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
+import com.tencent.mm.opensdk.modelpay.PayReq;
+import com.tencent.mm.opensdk.openapi.IWXAPI;
+import com.wen_wen.latte.app.app.ConfigKeys;
+import com.wen_wen.latte.app.app.Latte;
 import com.wen_wen.latte.app.delegate.LatteDelegate;
 import com.wen_wen.latte.app.net.RestClient;
 import com.wen_wen.latte.app.net.callback.ISuccess;
+import com.wen_wen.latte.app.ui.loader.LatteLoader;
+import com.wen_wen.latte.app.wechat.LatteWeChat;
 import com.wen_wen.latte.ec.R;
 
 /**
@@ -95,6 +102,47 @@ public class FastPay implements View.OnClickListener {
                 })
                 .build()
                 .post();
+    }
+
+    //微信支付
+    private final void weChatPay(int orderId) {
+        LatteLoader.stopLoading();
+        final String weChatPrePayUrl = "";
+
+        final IWXAPI iwxapi = LatteWeChat.getInstance().getWXAPI();
+        //注册app
+        final String appId = Latte.getConfiguration(ConfigKeys.WE_CHAT_APP_ID);
+        iwxapi.registerApp(appId);
+        //发起支付
+        RestClient.builder()
+                .url(weChatPrePayUrl)
+                .success(new ISuccess() {
+                    @Override
+                    public void OnSuccess(String response) {
+                        final JSONObject result = JSON.parseObject(response).getJSONObject("result");
+                        final String prepayId = result.getString("prepayid");
+                        final String partnerId = result.getString("partnerid");
+                        final String packageValue = result.getString("package");
+                        final String timestamp = result.getString("timestamp");
+                        final String nonceStr = result.getString("noncestr");
+                        final String paySign = result.getString("sign");
+
+                        final PayReq payReq = new PayReq();
+                        payReq.appId = appId;
+                        payReq.prepayId = prepayId;
+                        payReq.partnerId = partnerId;
+                        payReq.packageValue = packageValue;
+                        payReq.timeStamp = timestamp;
+                        payReq.nonceStr = nonceStr;
+                        payReq.sign = paySign;
+
+                        iwxapi.sendReq(payReq);
+
+                    }
+                })
+                .build()
+                .post();
+
     }
 
 
