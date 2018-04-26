@@ -12,6 +12,7 @@ import com.wen_wen.latte.ec.R2;
 import com.wen_wen.latte.ec.launcher.main.personal.list.ListAdapter;
 import com.wen_wen.latte.ec.launcher.main.personal.list.ListBean;
 import com.wen_wen.latte.ec.launcher.main.personal.list.ListItemType;
+import com.wen_wen.latte.ec.launcher.main.personal.settings.NameDelegate;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -46,6 +47,7 @@ public class UserProfileDelegate extends LatteDelegate{
         ListBean name = new ListBean.Builder()
                 .setItemType(ListItemType.ITEM_NORMAL)
                 .setId(2)
+                .setDelegate(new NameDelegate())
                 .setText("姓名")
                 .setVaule("未设置姓名")
                 .build();
@@ -77,5 +79,7 @@ public class UserProfileDelegate extends LatteDelegate{
         mRecyclerView.setLayoutManager(manager);
         ListAdapter adapter = new ListAdapter(data);
         mRecyclerView.setAdapter(adapter);
+
+        mRecyclerView.addOnItemTouchListener(new UserProfileClickListener(this));
     }
 }

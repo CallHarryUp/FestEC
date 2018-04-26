@@ -1,13 +1,14 @@
 package com.wen_wen.latte.ec.launcher.main.personal.list;
 
+import android.util.Log;
+import android.widget.ImageView;
+
 import com.chad.library.adapter.base.BaseMultiItemQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.squareup.picasso.Picasso;
 import com.wen_wen.latte.ec.R;
 
 import java.util.List;
-
-import de.hdodenhof.circleimageview.CircleImageView;
 
 /**
  * Created by WeLot on 2018/4/26.
@@ -36,9 +37,10 @@ public class ListAdapter extends BaseMultiItemQuickAdapter<ListBean, BaseViewHol
                 helper.setText(R.id.tv_arrow_value, item.getmValue());
                 break;
             case ListItemType.ITEM_AVATAR:
+                Log.d("111","url:"+item.getmImageUrl());
                 Picasso.with(mContext)
                         .load(item.getmImageUrl())
-                        .into((CircleImageView) helper.getView(R.id.img_arrow_avatar));
+                        .into((ImageView) helper.getView(R.id.img_arrow_avatar));
                 break;
             default:
                 break;
