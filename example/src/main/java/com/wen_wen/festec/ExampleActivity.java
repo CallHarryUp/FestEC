@@ -14,6 +14,7 @@ import com.wen_wen.latte.ec.launcher.main.EcBottomDelegate;
 import com.wen_wen.latte.ec.launcher.sign.ISignListener;
 import com.wen_wen.latte.ec.launcher.sign.SignInDelegate;
 
+import cn.jpush.android.api.JPushInterface;
 import qiu.niorgai.StatusBarCompat;
 
 /**
@@ -59,7 +60,7 @@ public class ExampleActivity extends ProxyActivity implements ISignListener, Ila
         switch (tag) {
             case SINNED:
                 getSupportDelegate().startWithPop(new EcBottomDelegate());
-                Log.d("111","开始执行");
+                Log.d("111", "开始执行");
                 Toast.makeText(getApplicationContext(), "启动结束 ，用户登录", Toast.LENGTH_SHORT).show();
                 break;
             case NOT_SIGNED:
@@ -67,5 +68,17 @@ public class ExampleActivity extends ProxyActivity implements ISignListener, Ila
                 getSupportDelegate().startWithPop(new SignInDelegate());
                 break;
         }
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        JPushInterface.onPause(this);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        JPushInterface.onPause(this);
     }
 }
