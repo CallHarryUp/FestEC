@@ -91,6 +91,21 @@ public class CameraHanlder implements View.OnClickListener {
 
 
         }
+       /* //创建拍照存储的图片文件
+        File tempFile = new File(FileUtil.checkDirPath(Environment.getExternalStorageDirectory().getPath() + "/image/"), System.currentTimeMillis() + ".jpg");
+        //跳转到调用系统相机
+        Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            //设置7.0中共享文件，分享路径定义在xml/file_paths.xml
+            intent.setFlags(Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
+            Uri contentUri = FileProvider.getUriForFile(DELEGATE.getContext(), BuildConfig.APPLICATION_ID + ".fileProvider", tempFile);
+            CameraImageBean.getInstance().setPath(contentUri);
+            intent.putExtra(MediaStore.EXTRA_OUTPUT, contentUri);
+        } else {
+            Uri fileUri = Uri.fromFile(tempFile);
+            CameraImageBean.getInstance().setPath(fileUri);
+            intent.putExtra(MediaStore.EXTRA_OUTPUT, fileUri);
+        }*/
         DELEGATE.startActivityForResult(intent, RequestCodes.TAKE_PHOTO);
 
     }

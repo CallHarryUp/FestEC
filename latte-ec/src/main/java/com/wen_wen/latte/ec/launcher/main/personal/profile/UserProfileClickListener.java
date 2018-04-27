@@ -5,11 +5,15 @@ import android.content.DialogInterface;
 import android.net.Uri;
 import android.util.Log;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.listener.SimpleClickListener;
+import com.squareup.picasso.Picasso;
 import com.wen_wen.latte.app.delegate.LatteDelegate;
+import com.wen_wen.latte.app.net.RestClient;
+import com.wen_wen.latte.app.net.callback.ISuccess;
 import com.wen_wen.latte.app.util.callback.CallbackManager;
 import com.wen_wen.latte.app.util.callback.CallbackType;
 import com.wen_wen.latte.app.util.callback.IGlobalCllback;
@@ -33,7 +37,7 @@ public class UserProfileClickListener extends SimpleClickListener {
 
     //数据驱动UI
     @Override
-    public void onItemClick(BaseQuickAdapter adapter, final View view, int position) {
+    public void onItemClick(final BaseQuickAdapter adapter, final View view, int position) {
         final ListBean bean = (ListBean) baseQuickAdapter.getData().get(position);
         final int id = bean.getmId();
         switch (id) {
@@ -44,7 +48,26 @@ public class UserProfileClickListener extends SimpleClickListener {
                         .addCallback(CallbackType.ON_CROP, new IGlobalCllback<Uri>() {
                             @Override
                             public void executeCallback(Uri args) {
-                                Log.d("111","agrs:"+args);
+                                Log.d("111", "agrs:" + args);
+                                final ImageView avatar = ((ImageView) view.findViewById(R.id.img_arrow_avatar));
+                                Picasso.with(DELEGATE.getContext())
+                                        .load(args.getPath())
+                                        .into(avatar);
+                                //上传
+                                RestClient.builder()
+                                        .url("")
+                                        .loader(DELEGATE.getContext())
+                                        .file(args.getPath())
+                                        .success(new ISuccess() {
+                                            @Override
+                                            public void OnSuccess(String response) {
+                                                //更新用户信息  然后更新本地数据库
+                                                // 或者每次打开app都请求api  不保存本地数据
+
+                                            }
+                                        })
+                                        .build()
+                                        .upload();
                             }
 
                         });

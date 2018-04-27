@@ -7,6 +7,7 @@ import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Environment;
 import android.provider.MediaStore;
+import android.text.TextUtils;
 import android.webkit.MimeTypeMap;
 
 import com.wen_wen.latte.app.app.Latte;
@@ -362,5 +363,19 @@ public final class FileUtil {
             }
         }
         return data;
+    }
+
+    /**
+     * 检查文件是否存在
+     */
+    public static String checkDirPath(String dirPath) {
+        if (TextUtils.isEmpty(dirPath)) {
+            return "";
+        }
+        File dir = new File(dirPath);
+        if (!dir.exists()) {
+            dir.mkdirs();
+        }
+        return dirPath;
     }
 }

@@ -192,4 +192,8 @@ public class RestClient {
 
     }
 
+    public final void upload() {
+        request(HttpMethod.UPLOAD);
+    }
+
 }

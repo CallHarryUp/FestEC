@@ -15,7 +15,6 @@ import com.wen_wen.latte.app.ui.camera.RequestCodes;
 import com.wen_wen.latte.app.util.callback.CallbackManager;
 import com.wen_wen.latte.app.util.callback.CallbackType;
 import com.wen_wen.latte.app.util.callback.IGlobalCllback;
-import com.yalantis.ucrop.UCrop;
 
 import permissions.dispatcher.NeedsPermission;
 import permissions.dispatcher.OnNeverAskAgain;
@@ -60,11 +59,11 @@ public abstract class PermissionCheckerDelegate extends BaseDegelate {
             switch (requestCode) {
                 case RequestCodes.TAKE_PHOTO:
                     final Uri resultUri = CameraImageBean.getInstance().getPath();
-                    //剪切：原始路径 剪切玩之后需要放置的路径
+                   /* //剪切：原始路径 剪切玩之后需要放置的路径
                     UCrop.of(resultUri, resultUri)
                             .withMaxResultSize(400, 400)
                             .start(getActivity(), this);
-                    Log.d("111", "执行剪裁");
+                    Log.d("111", "执行剪裁");*/
                     final IGlobalCllback<Uri> take_callback = CallbackManager
                             .getInstance()
                             .getCallback(CallbackType.ON_CROP);
@@ -79,11 +78,11 @@ public abstract class PermissionCheckerDelegate extends BaseDegelate {
                         //从相册选择之后的原路径
                         final Uri pickPath = data.getData();
                         //从相册选择后需要有一个路径存放剪裁过的图片  要存放的新路径
-                        final String pickCropPath = LatteCamera.createCropFile().getPath();
-                        UCrop.of(pickPath, Uri.parse(pickCropPath))
+                       // final String pickCropPath = LatteCamera.createCropFile().getPath();
+                       /* UCrop.of(pickPath, Uri.parse(pickCropPath))
                                 .withMaxResultSize(400, 400)
                                 .start(getContext(), this);
-                        Log.d("111", "执行剪裁");
+                        Log.d("111", "执行剪裁");*/
                         final IGlobalCllback<Uri> callback = CallbackManager
                                 .getInstance()
                                 .getCallback(CallbackType.ON_CROP);
