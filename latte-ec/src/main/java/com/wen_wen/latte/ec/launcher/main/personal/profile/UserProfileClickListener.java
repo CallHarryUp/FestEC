@@ -2,12 +2,17 @@ package com.wen_wen.latte.ec.launcher.main.personal.profile;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.net.Uri;
+import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.listener.SimpleClickListener;
 import com.wen_wen.latte.app.delegate.LatteDelegate;
+import com.wen_wen.latte.app.util.callback.CallbackManager;
+import com.wen_wen.latte.app.util.callback.CallbackType;
+import com.wen_wen.latte.app.util.callback.IGlobalCllback;
 import com.wen_wen.latte.ec.R;
 import com.wen_wen.latte.ec.launcher.main.personal.data.DateDialogUtil;
 import com.wen_wen.latte.ec.launcher.main.personal.list.ListBean;
@@ -33,8 +38,17 @@ public class UserProfileClickListener extends SimpleClickListener {
         final int id = bean.getmId();
         switch (id) {
             case 1:
-                DELEGATE.startCameraWithCheck();
                 //开始照相机  或选择图片
+                DELEGATE.startCameraWithCheck();
+                CallbackManager.getInstance()
+                        .addCallback(CallbackType.ON_CROP, new IGlobalCllback<Uri>() {
+                            @Override
+                            public void executeCallback(Uri args) {
+                                Log.d("111","agrs:"+args);
+                            }
+
+                        });
+
                 break;
             case 2:
                 final LatteDelegate nameDelegate = bean.getmDelegate();

@@ -11,7 +11,7 @@ import com.wen_wen.latte.app.util.FileUtil;
 //照相机调用类
 public class LatteCamera {
 
-    public static Uri createCrop() {
+    public static Uri createCropFile() {
 
         return Uri.parse(FileUtil.createFile("crop_image",
                 FileUtil.getFileNameByTime("IMG", "JPOG")).getPath());
