@@ -33,6 +33,7 @@ public class UserProfileClickListener extends SimpleClickListener {
         final int id = bean.getmId();
         switch (id) {
             case 1:
+                DELEGATE.startCameraWithCheck();
                 //开始照相机  或选择图片
                 break;
             case 2:
