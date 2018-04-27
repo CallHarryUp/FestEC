@@ -9,6 +9,7 @@ import android.view.View;
 import com.wen_wen.latte.app.bottom.BottomItemDelegate;
 import com.wen_wen.latte.ec.R;
 import com.wen_wen.latte.ec.R2;
+import com.wen_wen.latte.ec.launcher.main.personal.adress.AddressDelegate;
 import com.wen_wen.latte.ec.launcher.main.personal.list.ListAdapter;
 import com.wen_wen.latte.ec.launcher.main.personal.list.ListBean;
 import com.wen_wen.latte.ec.launcher.main.personal.list.ListItemType;
@@ -70,6 +71,7 @@ public class PersonalDelegate extends BottomItemDelegate {
         //收货地址
         ListBean address = new ListBean.Builder()
                 .setItemType(ListItemType.ITEM_NORMAL)
+                .setDelegate(new AddressDelegate())
                 .setId(1)
                 .setText("收货地址")
                 .build();
@@ -91,6 +93,7 @@ public class PersonalDelegate extends BottomItemDelegate {
         mRvSettings.setLayoutManager(manager);
         ListAdapter adapter = new ListAdapter(data);
         mRvSettings.setAdapter(adapter);
+        mRvSettings.addOnItemTouchListener(new PersionalClickListener(this));
 
 
     }
