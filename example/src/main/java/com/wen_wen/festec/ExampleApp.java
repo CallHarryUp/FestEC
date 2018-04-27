@@ -8,6 +8,8 @@ import com.wen_wen.latte.app.net.interceptors.DebugInterceptor;
 import com.wen_wen.latte.ec.launcher.database.DatabaseManager;
 import com.wen_wen.latte.ec.launcher.icon.FontEcModule;
 
+import cn.jpush.android.api.JPushInterface;
+
 /**
  * Created by WeLot on 2018/4/12.
  */
@@ -30,6 +32,12 @@ public class ExampleApp extends Application {
 
         //初始化数据库
         DatabaseManager.getInstance().init(this);
+
+
+        //开启极光推送
+        JPushInterface.setDebugMode(true);
+        JPushInterface.init(this);
+
     }
 
     //数据库查看工具

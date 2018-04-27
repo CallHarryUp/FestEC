@@ -10,6 +10,8 @@ android {
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+
+
     }
     buildTypes {
         release {
@@ -28,7 +30,9 @@ dependencies {
     })
     testCompile 'junit:junit:4.12'
     annotationProcessor project(':latte-complier')
+    annotationProcessor 'com.jakewharton:butterknife-compiler:8.6.0'
     compile project(':latte-ec')
+
 
 
 }
