@@ -26,6 +26,7 @@ import permissions.dispatcher.RuntimePermissions;
 
 /**
  * Created by WeLot on 2018/4/12.
+ * 没有吊起第三方库裁剪功能(后续完成)
  */
 @RuntimePermissions
 public abstract class PermissionCheckerDelegate extends BaseDegelate {
@@ -67,7 +68,6 @@ public abstract class PermissionCheckerDelegate extends BaseDegelate {
                     final IGlobalCllback<Uri> take_callback = CallbackManager
                             .getInstance()
                             .getCallback(CallbackType.ON_CROP);
-
 
                     if (take_callback != null) {
                         take_callback.executeCallback(resultUri);
