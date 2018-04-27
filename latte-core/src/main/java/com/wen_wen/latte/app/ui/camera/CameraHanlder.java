@@ -1,4 +1,4 @@
-package com.wen_wen.latte.ec.launcher.main.personal.camera;
+package com.wen_wen.latte.app.ui.camera;
 
 import android.app.AlertDialog;
 import android.content.ContentValues;
@@ -13,9 +13,10 @@ import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 
+import com.blankj.utilcode.util.FileUtils;
+import com.wen_wen.latte.R;
 import com.wen_wen.latte.app.delegate.PermissionCheckerDelegate;
 import com.wen_wen.latte.app.util.FileUtil;
-import com.wen_wen.latte.ec.R;
 
 import java.io.File;
 
@@ -27,9 +28,10 @@ public class CameraHanlder implements View.OnClickListener {
     private final AlertDialog DIALOG;
     private final PermissionCheckerDelegate DELEGATE;
 
-    public CameraHanlder(AlertDialog dialog, PermissionCheckerDelegate delegate) {
-        this.DIALOG = dialog;
+    public CameraHanlder(PermissionCheckerDelegate delegate) {
+
         this.DELEGATE = delegate;
+        DIALOG = new AlertDialog.Builder(delegate.getContext()).create();
     }
 
     final void beginCameraDialog() {
@@ -62,24 +64,49 @@ public class CameraHanlder implements View.OnClickListener {
         return FileUtil.getFileNameByTime("IMG", "jpg");
     }
 
-    private void takePhone() {
+    private void takePhoto() {
         final String currentPhonoName = getPhonoName();
         final Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         //创建临时file
-        final File tempFile = new File(FileUtil.CAMERA_PHOTO_DIR,currentPhonoName);
+        final File tempFile = new File(FileUtil.CAMERA_PHOTO_DIR, currentPhonoName);
 
-        //判断android版本   兼容7。0及以上
-        if (Build.VERSION.SDK_INT>=Build.VERSION_CODES.N) {
-            final ContentValues  contentValues   =  new ContentValues(1);
-            contentValues.put(MediaStore.Images.Media.DATA,tempFile.getPath());
-            final Uri  uri  =  DELEGATE.getContext().getContentResolver()
-                    .insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI,contentValues);
-            //将路径转化为实际路径
-          //  final  File  realFile  =  FileUtil.getRealFilePath(DELEGATE.getContext(),uri);
+        //判断android版本   兼容7。0及以上  正确调用相机
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            final ContentValues contentValues = new ContentValues(1);
+            contentValues.put(MediaStore.Images.Media.DATA, tempFile.getPath());
+            final Uri uri = DELEGATE.getContext().getContentResolver()
+                    .insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, contentValues);
+            //将Uri路径转化为实际路径
+            final File realFile = FileUtils.
+                    getFileByPath(FileUtil.getRealFilePath(DELEGATE.getContext(), uri));
+
+            final Uri realUri = Uri.fromFile(realFile);
+            CameraImageBean.getInstance().setPath(realUri);
+
+            intent.putExtra(MediaStore.EXTRA_OUTPUT, uri);
+        } else {
+            final Uri fileUrl = Uri.fromFile(tempFile);
+            CameraImageBean.getInstance().setPath(fileUrl);
+            intent.putExtra(MediaStore.EXTRA_OUTPUT, fileUrl);
 
 
         }
+        DELEGATE.startActivityForResult(intent, RequestCodes.TAKE_PHOTO);
 
+    }
+
+    //选择图片
+    private void pickPhoto() {
+
+        final Intent intent = new Intent();
+        //类型是所有的image类型
+        intent.setType("image/*");
+        //获取内容
+        intent.setAction(Intent.ACTION_GET_CONTENT);
+        intent.addCategory(Intent.CATEGORY_OPENABLE);
+        //选择器
+        DELEGATE.startActivityForResult(
+                Intent.createChooser(intent, "选择获取图片方式"), RequestCodes.PICK_PHOTO);
     }
 
 
@@ -91,8 +118,10 @@ public class CameraHanlder implements View.OnClickListener {
             DIALOG.cancel();
 
         } else if (id == R.id.photodialog_btn_native) {
+            pickPhoto();
             DIALOG.cancel();
         } else if (id == R.id.photodialog_btn_take) {
+            takePhoto();
             DIALOG.cancel();
         }
     }
