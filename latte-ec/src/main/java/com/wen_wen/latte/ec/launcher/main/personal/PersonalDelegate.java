@@ -15,6 +15,7 @@ import com.wen_wen.latte.ec.launcher.main.personal.list.ListBean;
 import com.wen_wen.latte.ec.launcher.main.personal.list.ListItemType;
 import com.wen_wen.latte.ec.launcher.main.personal.order.OrderListDelegate;
 import com.wen_wen.latte.ec.launcher.main.personal.profile.UserProfileDelegate;
+import com.wen_wen.latte.ec.launcher.main.personal.settings.SettingsDelegate;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -79,6 +80,7 @@ public class PersonalDelegate extends BottomItemDelegate {
         //系统设置
         ListBean system = new ListBean.Builder()
                 .setItemType(ListItemType.ITEM_NORMAL)
+                .setDelegate(new SettingsDelegate())
                 .setId(2)
                 .setText("系统设置")
                 .build();

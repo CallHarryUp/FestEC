@@ -11,7 +11,7 @@ import com.wen_wen.latte.ec.R;
  * Created by WeLot on 2018/4/26.
  */
 
-public class NameDelegate   extends LatteDelegate{
+public class NameDelegate extends LatteDelegate {
     @Override
     public Object setLayout() {
         return R.layout.delegate_name;

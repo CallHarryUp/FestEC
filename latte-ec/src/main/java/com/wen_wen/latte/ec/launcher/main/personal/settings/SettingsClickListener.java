@@ -1,4 +1,4 @@
-package com.wen_wen.latte.ec.launcher.main.personal;
+package com.wen_wen.latte.ec.launcher.main.personal.settings;
 
 import android.view.View;
 
@@ -8,27 +8,27 @@ import com.wen_wen.latte.app.delegate.LatteDelegate;
 import com.wen_wen.latte.ec.launcher.main.personal.list.ListBean;
 
 /**
- * Created by WeLot on 2018/4/27.
+ * Created by wen_wen
  */
 
-public class PersionalClickListener extends SimpleClickListener {
+public class SettingsClickListener extends SimpleClickListener {
+
     private final LatteDelegate DELEGATE;
 
-    public PersionalClickListener(LatteDelegate delegate) {
+    public SettingsClickListener(LatteDelegate delegate) {
         this.DELEGATE = delegate;
     }
 
     @Override
     public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
-        ListBean bean = ((ListBean) baseQuickAdapter.getData().get(position));
-
+        final ListBean bean = (ListBean) baseQuickAdapter.getData().get(position);
         int id = bean.getmId();
         switch (id) {
             case 1:
-                DELEGATE.getParentDelegate().getSupportDelegate().start(bean.getmDelegate());
+                //这是消息推送的开关
                 break;
             case 2:
-                DELEGATE.getParentDelegate().getSupportDelegate().start(bean.getmDelegate());
+                DELEGATE.getSupportDelegate().start(bean.getmDelegate());
                 break;
             default:
                 break;
