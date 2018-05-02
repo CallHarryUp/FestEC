@@ -63,6 +63,7 @@ public class OrderListDelegate extends LatteDelegate {
                                 new OrderListDataConveter().setJsonData(response).convert();
                         final OrderListAdapter adapter = new OrderListAdapter(data);
                         mRecyclerView.setAdapter(adapter);
+                        mRecyclerView.addOnItemTouchListener(new OrderListClickListener(OrderListDelegate.this));
 
                     }
                 })

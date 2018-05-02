@@ -33,7 +33,7 @@ public class AboutDelegate extends LatteDelegate {
     @Override
     public void onBindView(@Nullable Bundle savedInstanceState, @NonNull View rootView) {
         RestClient.builder()
-                .url("about.php")
+                .url("about")
                 .loader(getContext())
                 .success(new ISuccess() {
                     @Override
