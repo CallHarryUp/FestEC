@@ -25,10 +25,10 @@ public class PersionalClickListener extends SimpleClickListener {
         int id = bean.getmId();
         switch (id) {
             case 1:
-                DELEGATE.getParentDelegate().getSupportDelegate().start(bean.getmDelegate());
+                DELEGATE.getParentDelegate().getSupportDelegate().start(bean.getDelegate());
                 break;
             case 2:
-                DELEGATE.getParentDelegate().getSupportDelegate().start(bean.getmDelegate());
+                DELEGATE.getParentDelegate().getSupportDelegate().start(bean.getDelegate());
                 break;
             default:
                 break;

@@ -74,7 +74,7 @@ public class UserProfileClickListener extends SimpleClickListener {
 
                 break;
             case 2:
-                final LatteDelegate nameDelegate = bean.getmDelegate();
+                final LatteDelegate nameDelegate = bean.getDelegate();
                 DELEGATE.getSupportDelegate().start(nameDelegate);
                 break;
             case 3:

@@ -28,7 +28,7 @@ public class SettingsClickListener extends SimpleClickListener {
                 //这是消息推送的开关
                 break;
             case 2:
-                DELEGATE.getSupportDelegate().start(bean.getmDelegate());
+                DELEGATE.getSupportDelegate().start(bean.getDelegate());
                 break;
             default:
                 break;

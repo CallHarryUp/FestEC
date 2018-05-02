@@ -26,6 +26,10 @@ import butterknife.BindView;
 
 /**
  * Created by wen_wen
+ * 依赖倒置：
+ * 1、反射
+ * 2、接口
+ * 3、消息
  */
 
 public class SettingsDelegate extends LatteDelegate {
@@ -49,7 +53,7 @@ public class SettingsDelegate extends LatteDelegate {
                     @SuppressWarnings("unchecked")
                     @Override
                     public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                        if (isChecked) {
+                        if (isChecked) {//是否打开
                             CallbackManager.getInstance().getCallback(CallbackType.TAG_OPEN_PUSH).executeCallback(null);
                             Toast.makeText(getContext(), "打开推送", Toast.LENGTH_SHORT).show();
                         } else {

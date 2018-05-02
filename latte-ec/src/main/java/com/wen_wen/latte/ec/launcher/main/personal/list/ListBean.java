@@ -51,7 +51,7 @@ public class ListBean implements MultiItemEntity {
         return mId;
     }
 
-    public LatteDelegate getmDelegate() {
+    public LatteDelegate getDelegate() {
         return mDelegate;
     }
 

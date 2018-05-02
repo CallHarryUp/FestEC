@@ -5,6 +5,9 @@ import android.app.Application;
 import com.joanzapata.iconify.fonts.FontAwesomeModule;
 import com.wen_wen.latte.app.app.Latte;
 import com.wen_wen.latte.app.net.interceptors.DebugInterceptor;
+import com.wen_wen.latte.app.util.callback.CallbackManager;
+import com.wen_wen.latte.app.util.callback.CallbackType;
+import com.wen_wen.latte.app.util.callback.IGlobalCllback;
 import com.wen_wen.latte.ec.launcher.database.DatabaseManager;
 import com.wen_wen.latte.ec.launcher.icon.FontEcModule;
 
@@ -38,6 +41,27 @@ public class ExampleApp extends Application {
         JPushInterface.setDebugMode(true);
         JPushInterface.init(this);
 
+        //使用接口实现依赖倒转
+        CallbackManager.getInstance()
+                .addCallback(CallbackType.TAG_OPEN_PUSH, new IGlobalCllback() {
+                    @Override
+                    public void executeCallback(Object args) {
+                        if (JPushInterface.isPushStopped(Latte.getApplicationContext())) {
+                            //重新进行极光推送初始化
+                            JPushInterface.setDebugMode(true);
+                            JPushInterface.init(Latte.getApplicationContext());
+                        }
+                    }
+                })
+                .addCallback(CallbackType.TAG_STOP_PUSH, new IGlobalCllback() {
+                    @Override
+                    public void executeCallback(Object args) {
+                        if (!JPushInterface.isPushStopped(Latte.getApplicationContext())) {
+                            JPushInterface.stopPush(Latte.getApplicationContext());
+
+                        }
+                    }
+                });
     }
 
     //数据库查看工具

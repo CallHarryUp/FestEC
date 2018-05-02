@@ -43,7 +43,6 @@ public class TransluncentBehavior extends CoordinatorLayout.Behavior<Toolbar> {
     }
 
     //处理具体逻辑
-
     @Override
     public void onNestedScroll(CoordinatorLayout coordinatorLayout,
                                Toolbar child,
