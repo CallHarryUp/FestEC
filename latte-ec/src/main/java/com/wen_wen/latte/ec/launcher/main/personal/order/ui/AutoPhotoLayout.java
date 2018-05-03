@@ -34,7 +34,7 @@ public class AutoPhotoLayout extends LinearLayoutCompat {
     //图片间隙
     private int mImageMargin = 0;
     private LatteDelegate mDelegate;
-
+    //一行的view集合
     private List<View> mLineViews;
     private AlertDialog mTargetDialog;
 
@@ -45,6 +45,7 @@ public class AutoPhotoLayout extends LinearLayoutCompat {
 
     //防止多次的测量和布局过程
     private boolean mIsOnceInitOnMeasure = false;
+    private boolean mHasInitOnLayout = false;
 
     public AutoPhotoLayout(Context context) {
         this(context, null);
@@ -160,6 +161,89 @@ public class AutoPhotoLayout extends LinearLayoutCompat {
             mParams = new LayoutParams(imageSideLen, imageSideLen);
             mIsOnceInitOnMeasure = true;
         }
+
+    }
+
+    @Override
+    protected void onLayout(boolean changed, int l, int t, int r, int b) {
+        ALL_VIEWS.clear();
+        LINE_HEIGHTS.clear();
+        //当前viewGroup 的宽度
+        final int width = getWidth();
+        int lineWidth = 0;
+        int lineHeight = 0;
+
+        if (!mHasInitOnLayout) {
+            mLineViews = new ArrayList<>();
+            mHasInitOnLayout = true;
+        }
+        int cCount = getChildCount();
+        for (int i = 0; i < cCount; i++) {
+            final View child = getChildAt(i);
+            MarginLayoutParams lp = (MarginLayoutParams) child.getLayoutParams();
+            int childWidth = child.getMeasuredWidth();
+            int childHeight = child.getMeasuredHeight();
+            //如果需要换行
+            if (childWidth + lineWidth + lp.leftMargin + lp.rightMargin >
+                    width - getPaddingLeft() - getPaddingRight()) {
+                //记录lineHeight
+                LINE_HEIGHTS.add(lineHeight);
+                //记录当前一行的views
+                ALL_VIEWS.add(mLineViews);
+                //重置宽和高
+                lineWidth = 0;
+                lineHeight = childHeight + lp.topMargin + lp.bottomMargin;
+                //重置view的集合
+                mLineViews.clear();
+
+            }
+            lineWidth += childWidth + lp.leftMargin + lp.rightMargin;
+            lineHeight = Math.max(lineHeight, lineHeight + lp.topMargin + lp.bottomMargin);
+            //添加view
+            mLineViews.add(child);
+
+        }
+        //最后一行
+        LINE_HEIGHTS.add(lineHeight);
+        ALL_VIEWS.add(mLineViews);
+        //设置子view的位置
+        int left = getPaddingLeft();
+        int top = getPaddingTop();
+        //行数
+        final int lineNum = ALL_VIEWS.size();
+        for (int i = 0; i < lineNum; i++) {
+            //当前行所有的view
+            mLineViews = ALL_VIEWS.get(i);
+            //每一行的高
+            lineHeight = LINE_HEIGHTS.get(i);
+            //循环每一行元素的集合
+            int size = mLineViews.size();
+            for (int j = 0; j < size; j++) {
+                View child = mLineViews.get(j);
+                //判断child的状态
+                if (child.getVisibility() == GONE) {
+                    continue;
+                }
+                MarginLayoutParams lp = (MarginLayoutParams) child.getLayoutParams();
+                //设置子view的边距
+                int lc = left + lp.leftMargin;
+                int tc = top + lp.topMargin;
+                int rc = child.getMeasuredWidth() - mImageMargin;
+                int bc = tc + child.getMeasuredHeight();
+                //为子view进行布局
+                child.layout(lc, tc, rc, bc);
+                left += child.getMeasuredWidth() + lp.leftMargin + lp.rightMargin;
+            }
+            left = getPaddingLeft();
+            //每换一行   高度增加
+            top += lineHeight;
+
+
+        }
+        mIconAdd.setLayoutParams(mParams);
+        //要进行重新布局
+        mHasInitOnLayout  =  false;
+
 
     }
 }
