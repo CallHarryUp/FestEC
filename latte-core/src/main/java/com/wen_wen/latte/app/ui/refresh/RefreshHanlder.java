@@ -11,12 +11,13 @@ import com.wen_wen.latte.app.net.RestClient;
 import com.wen_wen.latte.app.net.callback.ISuccess;
 import com.wen_wen.latte.app.ui.recycler.DataConveter;
 import com.wen_wen.latte.app.ui.recycler.MultipleRecyclerAdapter;
+import com.wen_wen.latte.app.util.log.LatteLogger;
 
 /**
  * Created by WeLot on 2018/4/19.
  */
 
-public class RefreshHanlder implements SwipeRefreshLayout.OnRefreshListener ,BaseQuickAdapter.RequestLoadMoreListener{
+public class RefreshHanlder implements SwipeRefreshLayout.OnRefreshListener, BaseQuickAdapter.RequestLoadMoreListener {
     private final SwipeRefreshLayout REFRESH_LAYOUT;
 
     //做刷新准备
@@ -62,12 +63,12 @@ public class RefreshHanlder implements SwipeRefreshLayout.OnRefreshListener ,Bas
                 .success(new ISuccess() {
                     @Override
                     public void OnSuccess(String response) {
-                        final JSONObject  object  = JSON.parseObject(response);
+                        final JSONObject object = JSON.parseObject(response);
                         BEAN.setTotal(object.getInteger("total"))
                                 .setPageSize(object.getInteger("page_size"));
                         //设置adapter
-                        mAdapter  =  MultipleRecyclerAdapter.create(COVERTER.setJsonData(response));
-                        mAdapter.setOnLoadMoreListener(RefreshHanlder.this,RECYCLERVIEW);
+                        mAdapter = MultipleRecyclerAdapter.create(COVERTER.setJsonData(response));
+                        mAdapter.setOnLoadMoreListener(RefreshHanlder.this, RECYCLERVIEW);
                         RECYCLERVIEW.setAdapter(mAdapter);
                         BEAN.addIndex();
 
@@ -75,6 +76,41 @@ public class RefreshHanlder implements SwipeRefreshLayout.OnRefreshListener ,Bas
                 })
                 .build()
                 .get();
+
+    }
+
+    //分页数据
+    private void pagging(final String url) {
+        final int pageSize = BEAN.getmPageSize();
+        final int currentCount = BEAN.getmCurrentCount();
+        final int total = BEAN.getmTotal();
+        final int index = BEAN.getmPageIndex();
+
+        if (mAdapter.getData().size() < pageSize || currentCount >= total) {
+            mAdapter.loadMoreEnd(true);
+        } else {
+            Latte.getHandler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    RestClient.builder()
+                            .url(url + index)
+                            .success(new ISuccess() {
+                                @Override
+                                public void OnSuccess(String response) {
+                                    LatteLogger.json("paging", response);
+                                    COVERTER.clearData();
+                                    mAdapter.addData(COVERTER.setJsonData(response).convert());
+                                    //累加数量
+                                    BEAN.setCurrentCount(mAdapter.getData().size());
+                                    mAdapter.loadMoreComplete();
+                                    BEAN.addIndex();
+                                }
+                            })
+                            .build()
+                            .get();
+                }
+            }, 1000);
+        }
     }
 
     @Override
@@ -85,6 +121,6 @@ public class RefreshHanlder implements SwipeRefreshLayout.OnRefreshListener ,Bas
 
     @Override
     public void onLoadMoreRequested() {
-
+        pagging("loadmore?index  = ");
     }
 }
