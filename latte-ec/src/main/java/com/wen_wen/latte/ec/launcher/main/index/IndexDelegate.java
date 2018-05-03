@@ -28,6 +28,7 @@ import com.wen_wen.latte.app.util.callback.IGlobalCllback;
 import com.wen_wen.latte.ec.R;
 import com.wen_wen.latte.ec.R2;
 import com.wen_wen.latte.ec.launcher.main.EcBottomDelegate;
+import com.wen_wen.latte.ec.launcher.main.index.search.SearchDelegate;
 
 import java.util.ArrayList;
 
@@ -38,7 +39,7 @@ import butterknife.OnClick;
  * Created by WeLot on 2018/4/19.
  */
 
-public class IndexDelegate extends BottomItemDelegate {
+public class IndexDelegate extends BottomItemDelegate implements View.OnFocusChangeListener {
     @BindView(R2.id.rv_index)
     RecyclerView mRecyclerView;
     @BindView(R2.id.srl_index)
@@ -57,6 +58,7 @@ public class IndexDelegate extends BottomItemDelegate {
     void onClickScanQrCode() {
         startScanWithChreck(this.getParentDelegate());
     }
+
 
     @Override
     public void onBindView(@Nullable Bundle savedInstanceState, View rootView) {
@@ -107,6 +109,9 @@ public class IndexDelegate extends BottomItemDelegate {
                     }
                 });
 
+        //搜索
+        mSearchView.setOnFocusChangeListener(this);
+
     }
 
     //初始化swipeRegresh
@@ -147,4 +152,12 @@ public class IndexDelegate extends BottomItemDelegate {
     }
 
 
+    @Override
+    public void onFocusChange(View v, boolean hasFocus) {
+        //已经进入焦点模式
+        if (hasFocus) {
+               getParentDelegate().getSupportDelegate().start(new SearchDelegate());
+
+        }
+    }
 }
