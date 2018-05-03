@@ -11,6 +11,7 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import com.wen_wen.latte.app.bottom.BottomItemDelegate;
 import com.wen_wen.latte.app.net.RestClient;
@@ -21,6 +22,9 @@ import com.wen_wen.latte.app.ui.recycler.BaseDecoration;
 import com.wen_wen.latte.app.ui.recycler.MulitipleItemEntity;
 import com.wen_wen.latte.app.ui.refresh.PagingBean;
 import com.wen_wen.latte.app.ui.refresh.RefreshHanlder;
+import com.wen_wen.latte.app.util.callback.CallbackManager;
+import com.wen_wen.latte.app.util.callback.CallbackType;
+import com.wen_wen.latte.app.util.callback.IGlobalCllback;
 import com.wen_wen.latte.ec.R;
 import com.wen_wen.latte.ec.R2;
 import com.wen_wen.latte.ec.launcher.main.EcBottomDelegate;
@@ -28,6 +32,7 @@ import com.wen_wen.latte.ec.launcher.main.EcBottomDelegate;
 import java.util.ArrayList;
 
 import butterknife.BindView;
+import butterknife.OnClick;
 
 /**
  * Created by WeLot on 2018/4/19.
@@ -46,6 +51,12 @@ public class IndexDelegate extends BottomItemDelegate {
     AppCompatEditText mSearchView = null;
 
     private RefreshHanlder mRefreshHanlder;
+
+    //二维码扫描
+    @OnClick(R2.id.icon_index_scan)
+    void onClickScanQrCode() {
+        startScanWithChreck(this.getParentDelegate());
+    }
 
     @Override
     public void onBindView(@Nullable Bundle savedInstanceState, View rootView) {
@@ -86,6 +97,15 @@ public class IndexDelegate extends BottomItemDelegate {
         String image = list.get(1).getField(MulitipleFields.IMAGE_URL);
 */
         //   Log.d("111","image:"+json);
+
+        CallbackManager.getInstance()
+                .addCallback(CallbackType.ON_SCAN, new IGlobalCllback<String>() {
+                    @Override
+                    public void executeCallback(String qrcode) {
+                        Toast.makeText(getContext(),qrcode,Toast.LENGTH_SHORT).show();
+
+                    }
+                });
 
     }
 

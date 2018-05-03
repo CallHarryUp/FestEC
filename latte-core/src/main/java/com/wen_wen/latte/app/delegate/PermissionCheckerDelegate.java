@@ -12,6 +12,7 @@ import android.widget.Toast;
 import com.wen_wen.latte.app.ui.camera.CameraImageBean;
 import com.wen_wen.latte.app.ui.camera.LatteCamera;
 import com.wen_wen.latte.app.ui.camera.RequestCodes;
+import com.wen_wen.latte.app.ui.sanner.ScannerDelegate;
 import com.wen_wen.latte.app.util.callback.CallbackManager;
 import com.wen_wen.latte.app.util.callback.CallbackType;
 import com.wen_wen.latte.app.util.callback.IGlobalCllback;
@@ -78,7 +79,7 @@ public abstract class PermissionCheckerDelegate extends BaseDegelate {
                         //从相册选择之后的原路径
                         final Uri pickPath = data.getData();
                         //从相册选择后需要有一个路径存放剪裁过的图片  要存放的新路径
-                       // final String pickCropPath = LatteCamera.createCropFile().getPath();
+                        // final String pickCropPath = LatteCamera.createCropFile().getPath();
                        /* UCrop.of(pickPath, Uri.parse(pickCropPath))
                                 .withMaxResultSize(400, 400)
                                 .start(getContext(), this);
@@ -112,6 +113,18 @@ public abstract class PermissionCheckerDelegate extends BaseDegelate {
             }
         }
     }
+
+    //扫描二维码(不直接调用)
+    @NeedsPermission(Manifest.permission.CAMERA)
+    void startScan(BaseDegelate degelate) {
+        degelate.getSupportDelegate().startForResult(new ScannerDelegate(), RequestCodes.SCAN);
+
+    }
+
+    public void startScanWithChreck(BaseDegelate degelate) {
+        PermissionCheckerDelegatePermissionsDispatcher.startScanWithCheck(this, degelate);
+    }
+
 
     @OnPermissionDenied(Manifest.permission.CAMERA)
     void onCameraDenied() {
@@ -149,6 +162,21 @@ public abstract class PermissionCheckerDelegate extends BaseDegelate {
                 .setMessage("权限管理")
                 .show();
     }
+/*
+    @Override
+    public void onFragmentResult(int requestCode, int resultCode, Bundle data) {
+        super.onFragmentResult(requestCode, resultCode, data);
+        if (requestCode == RequestCodes.SCAN) {
+            if (data != null) {
+                String qrCode = data.getString("SCAN_RESULT");
+                IGlobalCllback<String> callback = CallbackManager.getInstance()
+                        .getCallback(CallbackType.ON_SCAN);
 
+                if (callback != null) {
+                    callback.executeCallback(qrCode);
+                }
 
+            }
+        }
+    }*/
 }
