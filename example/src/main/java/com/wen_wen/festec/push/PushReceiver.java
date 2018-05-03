@@ -7,7 +7,7 @@ import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
 
 import com.alibaba.fastjson.JSONObject;
-import com.wen_wen.festec.ExampleActivity;
+import com.wen_wen.festec.example.ExampleActivity;
 import com.wen_wen.latte.app.util.log.LatteLogger;
 
 import java.util.Set;

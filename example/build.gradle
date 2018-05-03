@@ -1,5 +1,4 @@
 apply plugin: 'com.android.application'
-apply plugin: 'com.mob.sdk'
 android {
     compileSdkVersion 26
     buildToolsVersion "25.0.3"
@@ -18,14 +17,6 @@ android {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
-    }
-}
-MobSDK{
-    appKey "2592777093f71"
-    appSecret "7f023fc19e66528dbd43c5883261935c"
-
-    ShareSDK{
-        //平台配置信息
     }
 
 

@@ -1,8 +1,10 @@
-package com.wen_wen.festec;
+package com.wen_wen.festec.example;
 
 import android.app.Application;
 
 import com.joanzapata.iconify.fonts.FontAwesomeModule;
+import com.wen_wen.festec.R;
+import com.wen_wen.festec.event.ShareEvent;
 import com.wen_wen.latte.app.app.Latte;
 import com.wen_wen.latte.app.net.interceptors.DebugInterceptor;
 import com.wen_wen.latte.app.util.callback.CallbackManager;
@@ -30,6 +32,7 @@ public class ExampleApp extends Application {
                 .withLoaderDelayed(1000)
                 .withInterceptor(new DebugInterceptor("index", R.raw.text))
                 .withWeChatAppId("")
+                .withWebEvent("share",new ShareEvent())
                 .withWeChatAppSecret("")
                 .configure();
 
@@ -62,6 +65,9 @@ public class ExampleApp extends Application {
                         }
                     }
                 });
+
+        //初始化分享
+       // MobSDK.init(Latte.getApplicationContext(), "2592777093f71", "7f023fc19e66528dbd43c5883261935c");
     }
 
     //数据库查看工具

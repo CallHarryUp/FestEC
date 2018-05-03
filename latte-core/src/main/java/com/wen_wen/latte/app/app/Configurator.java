@@ -9,6 +9,8 @@ import com.joanzapata.iconify.IconFontDescriptor;
 import com.joanzapata.iconify.Iconify;
 import com.orhanobut.logger.AndroidLogAdapter;
 import com.orhanobut.logger.Logger;
+import com.wen_wen.latte.app.delegate.web.event.Event;
+import com.wen_wen.latte.app.delegate.web.event.EventManager;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -156,12 +158,12 @@ public class Configurator {
         return this;
     }
 
-   /* public Configurator withWebEvent(@NonNull String name, @NonNull Event event) {
+   public Configurator withWebEvent(@NonNull String name, @NonNull Event event) {
         final EventManager manager = EventManager.getInstance();
         manager.addEvent(name, event);
         return this;
     }
-*/
+
     private void checkConfiguration() {
         final boolean isReady = (boolean) LATTE_CONFIGS.get(ConfigKeys.CONFIG_READY);
         if (!isReady) {

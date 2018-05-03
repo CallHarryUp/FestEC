@@ -1,4 +1,4 @@
-package com.wen_wen.festec;
+package com.wen_wen.festec.example;
 
 import android.os.Bundle;
 import android.util.Log;
