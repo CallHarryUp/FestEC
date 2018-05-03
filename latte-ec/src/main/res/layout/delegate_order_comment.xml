@@ -60,6 +60,15 @@
             android:layout_marginTop="5dp"
             android:layout_toRightOf="@id/img_order_comment" />
 
+        <com.wen_wen.latte.ec.launcher.main.personal.order.ui.AutoPhotoLayout
+            android:id="@+id/custom_auto_photo_layout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:icon_size="10sp"
+            app:item_margin="3"
+            app:line_count="5"
+            app:max_count="5" />
+
     </RelativeLayout>
 
     <android.support.v7.widget.AppCompatEditText
@@ -70,7 +79,6 @@
         android:gravity="top|left"
         android:hint="写下评论"
         android:padding="10dp" />
-
 
 
 </LinearLayout>
