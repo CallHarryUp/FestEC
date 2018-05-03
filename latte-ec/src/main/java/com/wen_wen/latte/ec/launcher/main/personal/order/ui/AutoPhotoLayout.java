@@ -4,13 +4,19 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
+import android.net.Uri;
 import android.support.v7.widget.AppCompatImageView;
 import android.support.v7.widget.LinearLayoutCompat;
 import android.util.AttributeSet;
 import android.view.Gravity;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
+import android.view.animation.AlphaAnimation;
 
 import com.joanzapata.iconify.widget.IconTextView;
+import com.squareup.picasso.Picasso;
 import com.wen_wen.latte.app.delegate.LatteDelegate;
 import com.wen_wen.latte.ec.R;
 
@@ -23,6 +29,7 @@ import java.util.List;
  */
 
 public class AutoPhotoLayout extends LinearLayoutCompat {
+    //添加图片数量
     private int mCurrentNum = 0;
     private int mMaxNum = 0;
     private int mMaxLineNum = 0;
@@ -38,7 +45,7 @@ public class AutoPhotoLayout extends LinearLayoutCompat {
     private List<View> mLineViews;
     private AlertDialog mTargetDialog;
 
-    private static final String ICON_TEXT = "{fa-plis}";
+    private static final String ICON_TEXT = "{fa-plus}";
     private float mIconSize = 0;
     private static final List<List<View>> ALL_VIEWS = new ArrayList<>();
     private static final List<Integer> LINE_HEIGHTS = new ArrayList<>();
@@ -62,7 +69,7 @@ public class AutoPhotoLayout extends LinearLayoutCompat {
         mMaxNum = typedArray.getInt(R.styleable.camera_flow_layout_max_count, 1);
         mMaxLineNum = typedArray.getInt(R.styleable.camera_flow_layout_line_count, 3);
         mImageMargin = typedArray.getInt(R.styleable.camera_flow_layout_item_margin, 0);
-        mIconSize = typedArray.getInt(R.styleable.camera_flow_layout_icon_size, 20);
+        mIconSize = typedArray.getDimension(R.styleable.camera_flow_layout_icon_size, 20);
         typedArray.recycle();
 
     }
@@ -92,8 +99,98 @@ public class AutoPhotoLayout extends LinearLayoutCompat {
         super.onFinishInflate();
         initAddIcon();
         mTargetDialog = new AlertDialog.Builder(getContext()).create();
+        mTargetDialog.show();
+        final Window window = mTargetDialog.getWindow();
+        if (window != null) {
+            window.setContentView(R.layout.dialog_image_click_panel);
+            window.setGravity(Gravity.BOTTOM);
+            window.setWindowAnimations(R.style.anim_panel_up_from_bottom);
+            window.setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+            final WindowManager.LayoutParams params = window.getAttributes();
+            params.width = WindowManager.LayoutParams.MATCH_PARENT;
+            params.flags = WindowManager.LayoutParams.FLAG_DIM_BEHIND;
+            params.dimAmount = 0.5f;
+            //添加参数
+            window.setAttributes(params);
+            window.findViewById(R.id.dialog_image_clicked_btn_delete).setOnClickListener(new OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    //得到图片
+                    final AppCompatImageView deleteImageView = ((AppCompatImageView) findViewById(mDeleteId));
+                    //设置图片逐渐消失的动画
+                    final AlphaAnimation animation = new AlphaAnimation(1, 0);
+                    animation.setDuration(500);
+                    //不重复
+                    animation.setRepeatCount(0);
+                    animation.setFillAfter(true);
+                    //不等待
+                    animation.setStartOffset(0);
+                    deleteImageView.startAnimation(animation);
+                    animation.start();
+                    AutoPhotoLayout.this.removeView(deleteImageView);
+                    mCurrentNum -= 1;
+                    //当数目达到上限时 隐藏添加那妞 不足时显示
+                    if (mCurrentNum > mMaxNum) {
+                        mIconAdd.setVisibility(VISIBLE);
+                    }
+                    mTargetDialog.cancel();
+                }
+            });
+            window.findViewById(R.id.dialog_image_clicked_btn_undetermined).setOnClickListener(new OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    mTargetDialog.cancel();
+                }
+            });
+
+            window.findViewById(R.id.dialog_image_clicked_btn_cancel).setOnClickListener(new OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    mTargetDialog.cancel();
+                }
+            });
+        }
 
     }
+
+    public final void setDelegate(LatteDelegate delegate) {
+        this.mDelegate = delegate;
+    }
+
+
+    public final void onCropTarget(Uri uri) {
+        createNewImageView();
+        Picasso.with(mDelegate.getContext())
+                .load(uri)
+                .into(mTargetImageView);
+
+
+    }
+
+    //创建新的 imageview
+    private void createNewImageView() {
+        mTargetImageView = new AppCompatImageView(getContext());
+        mTargetImageView.setId(mCurrentNum);
+        mTargetImageView.setLayoutParams(mParams);
+        mTargetImageView.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //获取眼删除的图片的id
+                mDeleteId = v.getId();
+                mTargetDialog.show();
+
+            }
+        });
+        //添加子view的时候传入位置
+        this.addView(mTargetImageView, mCurrentNum);
+        mCurrentNum++;
+        //当添加数目大于maxNum时  自动隐藏添加按钮
+        if (mCurrentNum >= mMaxNum) {
+            mIconAdd.setVisibility(GONE);
+        }
+
+    }
+
 
     //测量方法
     @Override
@@ -242,7 +339,7 @@ public class AutoPhotoLayout extends LinearLayoutCompat {
         }
         mIconAdd.setLayoutParams(mParams);
         //要进行重新布局
-        mHasInitOnLayout  =  false;
+        mHasInitOnLayout = false;
 
 
     }
